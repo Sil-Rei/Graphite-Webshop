@@ -30,6 +30,7 @@ function Navbar() {
   const handleChange = (event) => {
     setLoading(true);
     setSearchTerm(event.target.value);
+    setShowDropdown(true);
   };
 
   const handleClickOutside = (event) => {
@@ -71,7 +72,7 @@ function Navbar() {
 
   const mappedSearchResults = searchResults.map((result) => {
     return (
-      <li className="nav-search-result">
+      <li className="nav-search-result" key={result.id}>
         <SearchResult
           name={result.name}
           price={result.price}
@@ -84,6 +85,7 @@ function Navbar() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setShowDropdown(false);
     navigate("/search/" + searchTerm);
   };
 
