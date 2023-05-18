@@ -15,6 +15,17 @@
   margin-top: 5px;
 }
 
+.card-item-quantity-container {
+  display: flex;
+  align-items: center;
+}
+
+.cart-item-stock-quantity {
+  margin-left: 20px;
+  opacity: 0.6;
+  font-size: 0.85em;
+}
+
 .card-item-amount {
   border: 1px solid black;
   border-radius: 10px;

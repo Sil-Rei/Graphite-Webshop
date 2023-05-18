@@ -95,4 +95,14 @@ def remove_from_cart(request):
 def search_by_name(request, term):
     products = get_list_or_404(Product, Q(name__icontains=term))
     serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+def products_by_category(request, category):
+    if category == "all":
+        products = products = Product.objects.all()
+    else:
+        products = products = Product.objects.filter(category=category)
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

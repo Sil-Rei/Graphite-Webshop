@@ -4,7 +4,16 @@ import "./cart-item.css";
 import { XCircle } from "react-bootstrap-icons";
 import { removeFromCart } from "../../../services/productService";
 
-function CardItem({ name, image, price, amount, cartId, itemId, onDelete }) {
+function CartItem({
+  name,
+  image,
+  price,
+  amount,
+  cartId,
+  itemId,
+  onDelete,
+  stockQuantity,
+}) {
   const [buyAmount, setBuyAmount] = useState(amount);
 
   const imageURL = "http://localhost:8000" + image;
@@ -32,12 +41,17 @@ function CardItem({ name, image, price, amount, cartId, itemId, onDelete }) {
       <div className="card-item-left">
         <h3 className="card-item-name">{name}</h3>
         <p className="card-item-price">{price}€</p>
-        <input
-          type="number"
-          className="card-item-amount"
-          value={buyAmount}
-          onChange={handleChange}
-        />
+        <div className="card-item-quantity-container">
+          <input
+            type="number"
+            className="card-item-amount"
+            value={buyAmount}
+            onChange={handleChange}
+            min={1}
+            max={stockQuantity}
+          />
+          <p className="cart-item-stock-quantity">stock: {stockQuantity}</p>
+        </div>
       </div>
       <div className="remove-item" onClick={handleRemoveClick}>
         <XCircle />
@@ -46,4 +60,4 @@ function CardItem({ name, image, price, amount, cartId, itemId, onDelete }) {
   );
 }
 
-export default CardItem;
+export default CartItem;

@@ -1,5 +1,5 @@
 import "./shopping-cart.css";
-import CardItem from "./cart-item/cart-item";
+import CartItem from "./cart-item/cart-item";
 import { useContext, useEffect, useState } from "react";
 import { getCartItems } from "../../services/userdataService";
 import CartContext from "../../context/cartContext";
@@ -35,13 +35,15 @@ function ShoppingCart() {
   const mappedCartItems = cartItems.map((item) => {
     return (
       <li className="item" key={item.product.id}>
-        <CardItem
+        <CartItem
           name={item.product.name}
           price={item.product.price}
           amount={item.quantity}
           image={item.product.image}
           cartId={item.cart}
           itemId={item.id}
+          stockQuantity={item.product.stock_quantity}
+          st
           onDelete={handleItemDelete}
         />
       </li>

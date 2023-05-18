@@ -14,6 +14,7 @@ class Product(models.Model):
     price = models.FloatField()
     image = models.ImageField(upload_to="product_images/", blank=True, null=True)
     stock_quantity = models.PositiveIntegerField(default=0)
+    category = models.CharField(max_length=200, default="miscellaneous")
 
     def __str__(self):
         return self.name

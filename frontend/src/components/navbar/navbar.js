@@ -123,19 +123,19 @@ function Navbar() {
       </ul>
       <ul className="sublinks">
         <li>
-          <a href="#">pencils</a>
+          <Link to={"/products/pen"}>pens</Link>
         </li>
         <li>
-          <a href="#">papers</a>
+          <Link to={"/products/paper"}>papers</Link>
         </li>
         <li>
-          <a href="#">printers</a>
+          <Link to={"/products/tool"}>tools</Link>
         </li>
         <li>
-          <a href="#">miscellaneous</a>
+          <Link to={"/products/miscellaneous"}>miscellaneous</Link>
         </li>
         <li>
-          <a href="#">tools</a>
+          <Link to={"/products/all"}>all products</Link>
         </li>
       </ul>
       {showDropdown && (
