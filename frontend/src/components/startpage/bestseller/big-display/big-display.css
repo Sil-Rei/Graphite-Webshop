@@ -1,0 +1,26 @@
+.big-display-container {
+  width: 300px;
+  height: 300px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.big-display-link {
+  color: black;
+  text-decoration: none;
+}
+
+.big-display-image {
+  width: 100%;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.big-display-image:hover {
+  transform: scale(1.05);
+}
+
+.big-display-name {
+  font-weight: 200;
+  font-size: 1.3rem;
+}

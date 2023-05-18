@@ -1,0 +1,151 @@
+.shopping-cart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.shopping-cart-body {
+  display: flex;
+  margin-top: 20px;
+  width: 90%;
+  max-width: 1000px;
+  height: 600px;
+  border: 2px black solid;
+  border-radius: 10px;
+}
+
+.item-section {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.item-section-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  list-style-type: none;
+}
+
+.item-section-list li {
+  width: 95%;
+  max-width: 400px;
+}
+
+.item {
+  margin: 10px 0px;
+}
+
+.price-section {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+  border-radius: 0 10px 10px 0;
+  color: white;
+}
+
+.price-section-prices {
+  margin-top: 70%;
+  font-size: 1.2rem;
+  list-style-type: none;
+}
+
+.price-section-hr {
+  margin-top: 10px;
+  width: 60%;
+  background-color: white;
+  height: 2px;
+}
+
+.price-section-sum {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.checkout-button {
+  background-color: white;
+  border: 2px solid black;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.checkout-button:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.coupon-input {
+  height: 30px;
+  width: 200px;
+  border-radius: 10px;
+  border: #909090 2px solid;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.shopping-cart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 150px;
+  font-size: 1.3rem;
+}
+
+.shopping-cart-empty-button {
+  background-color: black;
+  border: none;
+  color: white;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.shopping-cart-empty-icon {
+  font-size: 2rem;
+}
+
+.shopping-cart-empty-button:hover {
+  background-color: rgb(37, 37, 37);
+}
+
+@media (max-width: 600px) {
+  .shopping-cart-body {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 90%;
+    max-width: 1000px;
+    height: 600px;
+    border: 2px black solid;
+    border-radius: 10px;
+  }
+
+  .item-section {
+    width: 100%;
+    height: 60%;
+  }
+
+  .price-section {
+    height: 40%;
+    width: 100%;
+  }
+
+  .price-section-prices {
+    list-style-type: none;
+    margin-top: 10px;
+  }
+
+  .shopping-cart-empty {
+    margin-top: 50px;
+  }
+}

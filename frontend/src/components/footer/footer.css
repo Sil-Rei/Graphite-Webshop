@@ -1,0 +1,41 @@
+.footer-container {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+}
+
+.footer-icons {
+  display: flex;
+  list-style: none;
+}
+.footer-icons li {
+  margin: 0 10px;
+  font-size: 1.5rem;
+  transition: all 0.2s;
+}
+
+.footer-icons li:hover {
+  transform: scale(1.2);
+}
+
+.footer-a {
+  color: black;
+}
+
+.footer-links {
+  display: flex;
+  list-style: none;
+}
+
+.footer-links li {
+  cursor: pointer;
+  margin: 0 10px;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.footer-links li:hover {
+  opacity: 1;
+}

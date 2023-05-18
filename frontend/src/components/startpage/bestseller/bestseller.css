@@ -1,0 +1,16 @@
+.bestseller-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.bestseller-list {
+  display: flex;
+  list-style-type: none;
+}
+
+.bestseller-heading {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}

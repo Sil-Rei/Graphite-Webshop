@@ -1,0 +1,84 @@
+.product-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.product-page-main {
+  margin-top: 30px;
+  display: flex;
+}
+
+.product-page-price {
+  font-size: 1.2rem;
+  width: 150px;
+  text-align: center;
+  border-bottom: 2px solid black;
+}
+
+.product-page-main-image {
+  width: 50vw;
+  max-width: 700px;
+}
+
+.product-page-right {
+  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-page-benefits {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.product-page-benefits li {
+  margin: 5px 0;
+}
+
+.product-page-to-cart {
+  background-color: black;
+  border: 2px solid white;
+  color: white;
+  width: 130px;
+  height: 50px;
+  border-radius: 0 10px 10px 0;
+  transition: all 0.2s;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+.product-page-to-cart:hover {
+  background-color: rgb(73, 73, 73);
+}
+
+.product-page-amount {
+  font-size: 1.2rem;
+  text-align: center;
+  width: 50px;
+  height: 46px;
+  border: solid black;
+  border-radius: 10px 0 0 10px;
+  border-right: none;
+}
+
+.product-page-error {
+  color: red;
+}
+
+.product-page-status {
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .product-page-main {
+    flex-direction: column;
+    align-items: center;
+  }
+}

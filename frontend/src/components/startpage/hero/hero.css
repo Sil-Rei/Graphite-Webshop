@@ -1,0 +1,48 @@
+.hero-container {
+  position: relative;
+}
+
+.hero-image {
+  max-height: 700px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center bottom + 20px;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 15vh;
+  left: 10vw;
+  background-color: rgba(169, 169, 169, 0.08);
+  backdrop-filter: blur(5px);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.cta-text {
+  font-weight: bold;
+  color: white;
+  font-size: 2rem;
+}
+
+.cta-button {
+  width: 150px;
+  cursor: pointer;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: white;
+  transition: ease-in-out 0.1s;
+}
+
+.cta-button:hover {
+  background-color: rgb(207, 205, 205);
+}
