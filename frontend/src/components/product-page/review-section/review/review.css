@@ -1,0 +1,22 @@
+.review-container {
+  max-width: 800px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+}
+
+.review-container-name-row {
+  display: flex;
+}
+
+.review-container-star-row {
+  color: #d7b539;
+}
+
+.review-container-date {
+  margin-left: 5px;
+  opacity: 0.6;
+}
+
+.review-container-name {
+  text-transform: capitalize;
+}

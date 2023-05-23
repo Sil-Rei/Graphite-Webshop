@@ -26,3 +26,20 @@
   font-weight: 200;
   font-size: 1.3rem;
 }
+
+.big-display-upper-row {
+  display: flex;
+  align-items: center;
+}
+
+.big-display-stars {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  color: #c0af71;
+}
+
+.big-display-star-p {
+  margin-left: 3px;
+  margin-top: 2px;
+}

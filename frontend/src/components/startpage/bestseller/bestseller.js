@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import "./bestseller.css";
 import BigDisplay from "./big-display/big-display";
-import { getAllProducts } from "../../../services/productService";
+import {
+  getAllProducts,
+  productsByCategory,
+} from "../../../services/productService";
 
 function Bestseller() {
   const [bestsellers, setBestsellers] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      const result = await getAllProducts();
+      const result = await productsByCategory("all");
       console.log(result);
 
       const renderedProducts = result.map((product, key) => {
@@ -19,6 +22,7 @@ function Bestseller() {
               name={product.name}
               price={product.price}
               image={product.image}
+              reviews={product.reviews}
             />
           </li>
         );

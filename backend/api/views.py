@@ -37,7 +37,7 @@ def get_user_cart(request):
 
 
 @api_view(["GET"])
-def get_all_products(request):
+def get_bestsellers(request):
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
 
@@ -101,8 +101,8 @@ def search_by_name(request, term):
 @api_view(["GET"])
 def products_by_category(request, category):
     if category == "all":
-        products = products = Product.objects.all()
+        products = Product.objects.all()
     else:
-        products = products = Product.objects.filter(category=category)
+        products = Product.objects.filter(category=category)
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

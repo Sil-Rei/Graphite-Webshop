@@ -29,6 +29,7 @@ function CategoryPage() {
           price={product.price}
           image={product.image}
           id={product.id}
+          reviews={product.reviews}
         />
       </li>
     );

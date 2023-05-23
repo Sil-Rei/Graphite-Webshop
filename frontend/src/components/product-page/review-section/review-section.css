@@ -1,0 +1,47 @@
+.review-section-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.review-section-info {
+  display: flex;
+  align-items: center;
+}
+
+.review-section-stars {
+  display: flex;
+  align-items: center;
+  color: #c0af71;
+  font-size: 2rem;
+  margin-left: 20px;
+}
+
+.review-section-review-count {
+  color: gray;
+  font-size: 1.2rem;
+  margin-left: 3px;
+  margin-top: 5px;
+}
+
+.review-section-reviews {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.review-section-write-button {
+  background-color: black;
+  border: none;
+  color: white;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.review-section-write-button:hover {
+  background-color: rgb(240, 240, 240);
+}

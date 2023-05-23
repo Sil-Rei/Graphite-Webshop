@@ -1,9 +1,10 @@
 import "./product-page.css";
-import { Check } from "react-bootstrap-icons";
+import { Check, StarFill } from "react-bootstrap-icons";
 import { useContext, useEffect, useState } from "react";
 import { addToCart, getProductById } from "../../services/productService";
 import { useParams } from "react-router-dom";
 import CartContext from "../../context/cartContext";
+import ReviewSection from "./review-section/review-section";
 
 function ProductPage() {
   const [buyAmount, setBuyAmount] = useState(1);
@@ -55,6 +56,16 @@ function ProductPage() {
     }
   };
 
+  const getAverageStars = () => {
+    if (productData.reviews.length !== 0) {
+      return (
+        productData.reviews.reduce((sum, obj) => sum + obj.stars, 0) /
+        productData.reviews.length
+      ).toFixed(1);
+    }
+    return 0;
+  };
+
   return (
     <div className="product-page-container">
       <div className="product-page-main">
@@ -64,8 +75,19 @@ function ProductPage() {
           alt="pink pen"
         />
         <div className="product-page-right">
+          <div className="product-page-stars">
+            <StarFill />
+            {productData.reviews && (
+              <>
+                <p className="product-page-rating">{getAverageStars()}</p>
+                <p className="product-page-review-count">
+                  ({productData.reviews.length})
+                </p>
+              </>
+            )}
+          </div>
           <h2 className="product-page-heading">{productData.name}</h2>
-          <p className="product-page-price">{productData.price}</p>
+          <p className="product-page-price">{productData.price}€</p>
           <ul className="product-page-benefits">
             <li>
               <Check />
@@ -82,7 +104,7 @@ function ProductPage() {
             <li>
               <Check />
               ergonomic grip - <br />
-              designed for YOU{" "}
+              designed for YOU
             </li>
           </ul>
           <div className="add-to-cart-wrapper">
@@ -106,6 +128,7 @@ function ProductPage() {
           </div>
         </div>
       </div>
+      <ReviewSection reviews={productData.reviews} />
     </div>
   );
 }

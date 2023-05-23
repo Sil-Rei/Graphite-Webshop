@@ -7,7 +7,7 @@ function Hero() {
       <img className="hero-image" src={pencilwide} alt="pencil" />
       <div className="cta">
         <p className="cta-text">
-          Sustainable working? <br /> Yes, we can!
+          Sustainable office? <br /> Yes, we can!
         </p>
         <button className="cta-button">start shopping</button>
       </div>

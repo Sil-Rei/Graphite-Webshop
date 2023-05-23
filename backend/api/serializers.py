@@ -1,8 +1,25 @@
 from rest_framework import serializers
-from base.models import Product, Cart, CartItem
+from base.models import Product, Cart, CartItem, UserReview
+from django.contrib.auth.models import User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username", "first_name", "last_name"]
+
+
+class UserReviewSerializer(serializers.ModelSerializer):
+    user = UserSerializer()  # Use UserSerializer to include user details
+
+    class Meta:
+        model = UserReview
+        fields = "__all__"
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    reviews = UserReviewSerializer(many=True)
+
     class Meta:
         model = Product
         fields = "__all__"
