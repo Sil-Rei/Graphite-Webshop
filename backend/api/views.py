@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from base.models import Product, CartItem, Cart
+from base.models import Product, CartItem, Cart, UserReview
 from django.contrib.auth.models import User
 from django.shortcuts import get_list_or_404
 from rest_framework import status
@@ -106,3 +106,30 @@ def products_by_category(request, category):
         products = Product.objects.filter(category=category)
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def submit_review(request):
+    user = request.user
+    product_id = request.data["productId"]
+    product = Product.objects.get(id=product_id)
+    stars = request.data["rating"]
+    review = request.data["reviewText"]
+
+    existing_review = UserReview.objects.filter(user=user, product=product).first()
+    if existing_review:
+        return Response(
+            "You have already submitted a review for this product.",
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if stars > 5 or stars < 1:
+        return Response("Invalid star rating", status=status.HTTP_406_NOT_ACCEPTABLE)
+
+    if len(review) > 400:
+        return Response("Review too long", status=status.HTTP_406_NOT_ACCEPTABLE)
+
+    new_review = UserReview(user=user, product=product, stars=stars, review=review)
+    new_review.save()
+    return Response("Review created.", status=status.HTTP_201_CREATED)

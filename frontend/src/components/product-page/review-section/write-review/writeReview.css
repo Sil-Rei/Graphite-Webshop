@@ -1,0 +1,48 @@
+.write-review-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+}
+
+.write-review-name {
+  text-transform: capitalize;
+  font-size: 1.2rem;
+}
+
+.star-row {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #d7b539;
+}
+
+.write-review-text-input {
+  resize: none;
+  width: 90%;
+  height: 140px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.write-review-submit {
+  margin-top: 5px;
+  background-color: black;
+  border: none;
+  color: white;
+  width: 80px;
+  height: 40px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .write-review-text-input {
+    height: 170px;
+    width: 90%;
+  }
+}

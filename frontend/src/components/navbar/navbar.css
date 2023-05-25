@@ -84,6 +84,10 @@
   font-weight: b;
 }
 
+.nav-hamburger {
+  display: none;
+}
+
 .sublinks {
   width: 80%;
   display: flex;
@@ -132,4 +136,38 @@
 
 .search-form {
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  .navbar-container {
+  }
+
+  .sublinks {
+    display: none;
+  }
+
+  .navbar-list {
+  }
+
+  .logo {
+  }
+
+  .searchbar {
+    display: none;
+  }
+
+  .nav-icon {
+    margin: 0px 5px;
+  }
+
+  .nav-hamburger {
+    display: inline;
+  }
+  .bar {
+    width: 25px;
+    height: 3px;
+    background-color: black;
+    margin-bottom: 4px;
+    margin-left: 10px;
+  }
 }

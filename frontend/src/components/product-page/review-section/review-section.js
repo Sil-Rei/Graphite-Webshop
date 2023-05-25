@@ -2,14 +2,54 @@ import "./review-section.css";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, LinearScale, Chart, registerables } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { StarFill } from "react-bootstrap-icons";
+import { Pencil, StarFill, UiChecksGrid } from "react-bootstrap-icons";
 import Review from "./review/review";
+import { useContext, useEffect, useState } from "react";
+import WriteReview from "./write-review/writeReview";
+import AuthContext from "../../../context/authContext";
+import { useNavigate } from "react-router-dom";
 
-function ReviewSection({ reviews, average }) {
+function ReviewSection({ reviews, productId, reloadCallback }) {
+  const [showWriteReview, setShowWriteReview] = useState(false);
+  const { user } = useContext(AuthContext);
+  const [showError, setShowError] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (user) {
+      setShowWriteReview(!showWriteReview);
+    } else {
+      setShowError("login-error");
+    }
+  };
+
+  const closeWriteReviewCallback = (message) => {
+    if (message === "") {
+      reloadCallback();
+    } else {
+      setShowWriteReview(false);
+      setShowError(message.response.data);
+    }
+  };
+
+  useEffect(() => {
+    let timer;
+
+    if (showError) {
+      timer = setTimeout(() => {
+        setShowError("");
+      }, 3000);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [showError]);
+
   const getRatingsDistribution = () => {
-    let distribution = [2, 1, 7, 0, 1];
+    let distribution = [0, 0, 0, 0, 0];
     if (reviews) {
-      distribution = [0, 0, 0, 0, 0];
       for (let i = 0; i < reviews.length; i++) {
         distribution[5 - reviews[i].stars] += 1;
       }
@@ -82,6 +122,10 @@ function ReviewSection({ reviews, average }) {
     },
   };
 
+  const classname = showWriteReview
+    ? "review-section-write-button-x"
+    : "review-section-write-button";
+
   Chart.register(LinearScale, CategoryScale, ChartDataLabels, ...registerables);
   return (
     <div className="review-section-container">
@@ -96,7 +140,34 @@ function ReviewSection({ reviews, average }) {
           <p className="review-section-review-count">({reviews?.length})</p>
         </div>
       </div>
-      {/* <button className="review-section-write-button">Write Review</button>*/}
+      <div className="review-section-button-row">
+        <button className={classname} onClick={handleClick}>
+          {!showWriteReview ? "Write Review" : "x"}
+          {!showWriteReview && <Pencil />}
+        </button>
+        {showError === "login-error" && (
+          <p className="review-section-error">
+            Please{" "}
+            <span className="underlined" onClick={() => navigate("/login")}>
+              {" "}
+              login
+            </span>{" "}
+            to write a review.
+          </p>
+        )}
+        {showError !== "login-error" && showError !== "" && (
+          <p className="review-section-error">{showError.body}</p>
+        )}
+      </div>
+      <div className="review-section-write-reviews">
+        {showWriteReview && (
+          <WriteReview
+            closeWriteReviewCallback={closeWriteReviewCallback}
+            productId={productId}
+          />
+        )}
+      </div>
+
       <ul className="review-section-reviews">{mappedReviews}</ul>
     </div>
   );

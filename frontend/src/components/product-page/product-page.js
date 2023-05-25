@@ -10,6 +10,7 @@ function ProductPage() {
   const [buyAmount, setBuyAmount] = useState(1);
   const [productData, setProductData] = useState({});
   const [error, setError] = useState(null);
+  const [reviewWritten, setReviewWritten] = useState(false);
 
   const { addCartItem } = useContext(CartContext);
 
@@ -19,6 +20,10 @@ function ProductPage() {
     setBuyAmount(event.target.value);
   };
 
+  const reloadCallback = () => {
+    setReviewWritten(true);
+  };
+
   useEffect(() => {
     async function fetchData() {
       const result = await getProductById(productId);
@@ -26,7 +31,7 @@ function ProductPage() {
       setProductData(result);
     }
     fetchData();
-  }, [productId]);
+  }, [productId, reviewWritten]);
 
   useEffect(() => {
     let timer;
@@ -128,7 +133,11 @@ function ProductPage() {
           </div>
         </div>
       </div>
-      <ReviewSection reviews={productData.reviews} />
+      <ReviewSection
+        reviews={productData.reviews}
+        productId={productData.id}
+        reloadCallback={reloadCallback}
+      />
     </div>
   );
 }

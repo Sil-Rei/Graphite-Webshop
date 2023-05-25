@@ -4,7 +4,6 @@ import { Person, Cart2, ChatLeftDots, CartFill } from "react-bootstrap-icons";
 import { useContext, useEffect, useRef, useState } from "react";
 import CartContext from "../../context/cartContext";
 import AuthContext from "../../context/authContext";
-import axios from "../../utils/axios";
 import { searchForProduct } from "../../services/productService";
 import SearchResult from "./search-result/search-result";
 
@@ -118,6 +117,11 @@ function Navbar() {
           </Link>
           <div className="nav-icon">
             <ChatLeftDots />
+          </div>
+          <div className="nav-hamburger">
+            <div className="bar"></div>
+            <div className="bar"></div>
+            <div className="bar"></div>
           </div>
         </li>
       </ul>
