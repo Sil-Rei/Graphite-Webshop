@@ -14,3 +14,9 @@
   font-size: 1.6rem;
   margin-bottom: 10px;
 }
+
+@media (max-width: 600px) {
+  .bestseller-list {
+    flex-direction: column;
+  }
+}

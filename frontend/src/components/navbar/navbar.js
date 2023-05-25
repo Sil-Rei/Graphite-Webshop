@@ -16,6 +16,7 @@ function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showHamburgerDropdown, setShowHamburgerDropdown] = useState(false);
 
   const profileIconUrl = user ? "/user-profile" : "/login";
 
@@ -25,6 +26,19 @@ function Navbar() {
     setShowDropdown(true);
     setLoading(false);
   };
+
+  const handleResize = () => {
+    if (window.innerWidth > 600) {
+      setShowHamburgerDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleChange = (event) => {
     setLoading(true);
@@ -88,6 +102,10 @@ function Navbar() {
     navigate("/search/" + searchTerm);
   };
 
+  const handleHamburgerClick = () => {
+    setShowHamburgerDropdown(!showHamburgerDropdown);
+  };
+
   return (
     <nav className="navbar-container">
       <ul className="navbar-list">
@@ -99,6 +117,7 @@ function Navbar() {
         <li className="searchbar">
           <form className="search-form" onSubmit={handleSubmit}>
             <input
+              className="searchbar-input"
               type="text"
               placeholder="Search ..."
               onClick={handleClick}
@@ -115,10 +134,10 @@ function Navbar() {
             {cartItems > 0 ? <CartFill /> : <Cart2 />}
             {cartItems > 0 && <p className="nav-cart-number">{cartItems}</p>}
           </Link>
-          <div className="nav-icon">
+          <div className="nav-icon nav-chat">
             <ChatLeftDots />
           </div>
-          <div className="nav-hamburger">
+          <div className="nav-hamburger" onClick={handleHamburgerClick}>
             <div className="bar"></div>
             <div className="bar"></div>
             <div className="bar"></div>
@@ -147,6 +166,37 @@ function Navbar() {
           {loading && searchResults.length === 0 && <p>Loading...</p>}
           <ul className="nav-results-list">{mappedSearchResults}</ul>
         </div>
+      )}
+      {showHamburgerDropdown && (
+        <form className="search-form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Search ..."
+            onClick={handleClick}
+            value={searchTerm}
+            onChange={handleChange}
+            className="searchbar-input"
+          />
+        </form>
+      )}
+      {showHamburgerDropdown && (
+        <ul className="sublinks-hamburger">
+          <li>
+            <Link to={"/products/pen"}>pens</Link>
+          </li>
+          <li>
+            <Link to={"/products/paper"}>papers</Link>
+          </li>
+          <li>
+            <Link to={"/products/tool"}>tools</Link>
+          </li>
+          <li>
+            <Link to={"/products/miscellaneous"}>miscellaneous</Link>
+          </li>
+          <li>
+            <Link to={"/products/all"}>all products</Link>
+          </li>
+        </ul>
       )}
     </nav>
   );
