@@ -50,9 +50,9 @@ function ShoppingCart() {
     );
   });
 
-  const mappedPrices = cartItems.map((item) => {
+  const mappedPrices = cartItems.map((item, key) => {
     return (
-      <li>
+      <li key={key}>
         {item.quantity} x {item.product.price}
       </li>
     );

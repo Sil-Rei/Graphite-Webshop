@@ -6,7 +6,12 @@ from base.models import Product, CartItem, Cart, UserReview
 from django.contrib.auth.models import User
 from django.shortcuts import get_list_or_404
 from rest_framework import status
-from .serializers import ProductSerializer, CartItemSerializer, CartSerializer
+from .serializers import (
+    ProductSerializer,
+    CartItemSerializer,
+    CartSerializer,
+    RegisterSerializer,
+)
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -25,6 +30,17 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
+
+@api_view(["POST"])
+def register_user(request):
+    print(request.data)
+    serializer = RegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        Cart.objects.create(user=user)
+        return Response("User registered", status=status.HTTP_201_CREATED)
+    return Response("Failed registration", status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])

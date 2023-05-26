@@ -10,6 +10,10 @@ function LoginRegister() {
     setSelectedForm(form);
   };
 
+  const registerCallback = () => {
+    setSelectedForm("login");
+  };
+
   const phrase = selectedForm === "register" ? "meet" : "see";
 
   return (
@@ -38,7 +42,9 @@ function LoginRegister() {
         </button>
       </div>
       {selectedForm === "login" && <Login />}
-      {selectedForm === "register" && <Register />}
+      {selectedForm === "register" && (
+        <Register registerCallback={registerCallback} />
+      )}
     </div>
   );
 }
