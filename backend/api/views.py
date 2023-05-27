@@ -40,7 +40,10 @@ def register_user(request):
         user = serializer.save()
         Cart.objects.create(user=user)
         return Response("User registered", status=status.HTTP_201_CREATED)
-    return Response("Failed registration", status=status.HTTP_400_BAD_REQUEST)
+    return Response(
+        "Failed registration, username already exists",
+        status=status.HTTP_400_BAD_REQUEST,
+    )
 
 
 @api_view(["GET"])
@@ -149,3 +152,46 @@ def submit_review(request):
     new_review = UserReview(user=user, product=product, stars=stars, review=review)
     new_review.save()
     return Response("Review created.", status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET"])
+@permission_classes([IsAdminUser])
+def is_admin(request):
+    return Response("admin", status=status.HTTP_200_OK)
+
+
+@api_view(["PATCH"])
+@permission_classes([IsAdminUser])
+def update_product(request):
+    product_id = request.data["data"]["id"]
+    updated_data = request.data["data"]
+
+    try:
+        product = Product.objects.get(id=product_id)
+        product.name = updated_data.get("name", product.name)
+        product.price = updated_data.get("price", product.price)
+        product.stock_quantity = updated_data.get(
+            "stock_quantity", product.stock_quantity
+        )
+
+        product.save()
+        return Response("Product updated successfully", status=status.HTTP_202_ACCEPTED)
+    except Product.DoesNotExist:
+        return Response("Product not found", status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAdminUser])
+def delete_product(request):
+    product_id = request.query_params.get("id")
+
+    try:
+        product = Product.objects.get(id=product_id)
+        product.delete()
+        return Response("Product deleted successfully", status.HTTP_200_OK)
+    except Product.DoesNotExist:
+        return Response("Product not found", status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response(str(e), status=status.HTTP_400_BAD_REQUEST)

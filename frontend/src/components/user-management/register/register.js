@@ -103,6 +103,7 @@ function Register({ registerCallback }) {
       }
     } catch (error) {
       console.log(error);
+      setError(error.response.data);
     }
   };
 

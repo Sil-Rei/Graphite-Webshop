@@ -1,0 +1,22 @@
+.admin-product-edit-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-product-edit-save-button {
+  width: 80px;
+  height: 30px;
+  margin-top: 5px;
+  border: none;
+  background-color: black;
+  border-radius: 10px;
+  color: white;
+}
+
+.admin-product-edit-input {
+  border: 2px solid black;
+  border-radius: 10px;
+  margin-right: 5px;
+  padding: 5px;
+}

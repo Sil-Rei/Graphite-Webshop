@@ -5,10 +5,12 @@ import { StarFill } from "react-bootstrap-icons";
 function BigDisplay({ name, price, image, id, reviews }) {
   const imageURL = "http://localhost:8000" + image;
   let averageRating = 0;
-  if (reviews.length !== 0) {
-    averageRating = (
-      reviews.reduce((sum, obj) => sum + obj.stars, 0) / reviews.length
-    ).toFixed(1);
+  if (reviews) {
+    if (reviews.length !== 0) {
+      averageRating = (
+        reviews.reduce((sum, obj) => sum + obj.stars, 0) / reviews.length
+      ).toFixed(1);
+    }
   }
 
   console.log(name + ":" + averageRating);

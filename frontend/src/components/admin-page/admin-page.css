@@ -1,0 +1,18 @@
+.admin-container {
+  display: flex;
+  justify-content: center;
+}
+
+.admin-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.not-admin-wrapper {
+  margin-top: 80px;
+}
+
+.not-admin-wrapper span {
+  text-decoration: underline;
+  cursor: pointer;
+}

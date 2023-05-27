@@ -12,6 +12,7 @@ import { CartProvider } from "./context/cartContext";
 import ProfilePage from "./components/profile-page/profile-page";
 import SearchPage from "./components/search-page/searchPage";
 import CategoryPage from "./components/category-page/category-page";
+import AdminPage from "./components/admin-page/admin-page";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path="/product/:productId" element={<ProductPage />} />
               <Route path="/products/:category" element={<CategoryPage />} />
               <Route path="/search/:term" element={<SearchPage />} />
+              <Route path="/admin/" element={<AdminPage />} />
             </Routes>
 
             <div className="footer">
