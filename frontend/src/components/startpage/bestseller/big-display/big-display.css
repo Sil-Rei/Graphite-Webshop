@@ -10,6 +10,7 @@
   text-decoration: none;
   width: 300px;
   height: 360px;
+  position: relative;
 }
 
 .big-display-image {
@@ -42,4 +43,18 @@
 .big-display-star-p {
   margin-left: 3px;
   margin-top: 2px;
+}
+
+.sold-out-image {
+  opacity: 0.4;
+}
+
+.sold-out {
+  color: rgb(78, 78, 78);
+  font-size: 2.2rem;
+  position: absolute;
+  bottom: 180px;
+  left: 27%;
+  font-weight: bold;
+  z-index: 10;
 }
