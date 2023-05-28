@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from base.models import Product, CartItem, Cart, UserReview, Purchase
+from base.models import Product, CartItem, Cart, UserReview, Purchase, PurchaseItem
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.shortcuts import get_list_or_404
@@ -205,10 +205,14 @@ def make_purchase(request):
     user = request.user
     cart = get_object_or_404(Cart, user=user)
     cart_items = cart.items.all()
+    purchase = Purchase.objects.create(user=user)
 
     for cart_item in cart_items:
         product = cart_item.product
-        Purchase.objects.create(user=user, product=product)
+        quantity = cart_item.quantity
+        PurchaseItem.objects.create(
+            purchase=purchase, product=product, quantity=quantity
+        )
 
     cart.items.all().delete()
     return Response("Purchase successful", status=status.HTTP_200_OK)

@@ -1,7 +1,7 @@
 import "./shopping-cart.css";
 import CartItem from "./cart-item/cart-item";
 import { useContext, useEffect, useState } from "react";
-import { getCartItems } from "../../services/userdataService";
+import { getCartItems, makePurchase } from "../../services/userdataService";
 import CartContext from "../../context/cartContext";
 import { EmojiFrown } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
@@ -65,6 +65,15 @@ function ShoppingCart() {
   });
   totalPrice = totalPrice.toFixed(2);
 
+  const handleCheckout = async () => {
+    try {
+      const response = await makePurchase();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="shopping-cart-container">
       <h1>shopping cart</h1>
@@ -90,7 +99,9 @@ function ShoppingCart() {
             <ul className="price-section-prices">{mappedPrices}</ul>
             <div className="price-section-hr" />
             <p className="price-section-sum">{totalPrice}€</p>
-            <button className="checkout-button">checkout</button>
+            <button className="checkout-button" onClick={handleCheckout}>
+              checkout
+            </button>
             <input type="text" placeholder="coupon?" className="coupon-input" />
           </div>
         ) : (
