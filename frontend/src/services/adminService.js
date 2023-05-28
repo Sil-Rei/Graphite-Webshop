@@ -29,3 +29,13 @@ export const deleteProduct = async (id) => {
     throw error;
   }
 };
+
+export const addProduct = async (formData) => {
+  try {
+    const response = await axios.post(`/api/product/add/`, formData);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};

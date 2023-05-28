@@ -42,6 +42,12 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class AddProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = "__all__"
+
+
 class CartItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
 

@@ -19,8 +19,11 @@ function AdminProductEdit({ product, closeEditCallback }) {
 
     try {
       const response = await updateProduct(updatedProduct);
+      console.log(response);
       closeEditCallback();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleNameChange = (event) => {

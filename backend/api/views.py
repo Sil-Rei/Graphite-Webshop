@@ -2,7 +2,8 @@ from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from base.models import Product, CartItem, Cart, UserReview
+from base.models import Product, CartItem, Cart, UserReview, Purchase
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.shortcuts import get_list_or_404
 from rest_framework import status
@@ -11,6 +12,7 @@ from .serializers import (
     CartItemSerializer,
     CartSerializer,
     RegisterSerializer,
+    AddProductSerializer,
 )
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -195,3 +197,29 @@ def delete_product(request):
         return Response("Product not found", status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def make_purchase(request):
+    user = request.user
+    cart = get_object_or_404(Cart, user=user)
+    cart_items = cart.items.all()
+
+    for cart_item in cart_items:
+        product = cart_item.product
+        Purchase.objects.create(user=user, product=product)
+
+    cart.items.all().delete()
+    return Response("Purchase successful", status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def add_product(request):
+    print(request.data)
+    serializer = AddProductSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

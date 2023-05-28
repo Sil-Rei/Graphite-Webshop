@@ -4,7 +4,7 @@ import { Pencil, Trash, TrashFill } from "react-bootstrap-icons";
 import AdminProductEdit from "../admin-product-edit/admin-product-edit";
 import { deleteProduct } from "../../../../services/adminService";
 
-function AdminProduct({ product }) {
+function AdminProduct({ product, reloadCallback }) {
   const [showEdit, setShowEdit] = useState(false);
 
   const handleEditClick = () => {
@@ -15,14 +15,14 @@ function AdminProduct({ product }) {
     if (window.confirm("Do you really want to delete " + product.name + "?")) {
       try {
         const response = await deleteProduct(product.id);
-        window.location.reload(false);
+        reloadCallback();
       } catch (error) {}
     }
   };
 
   const closeEdit = () => {
     setShowEdit(false);
-    window.location.reload(false);
+    reloadCallback();
   };
 
   let content = (
