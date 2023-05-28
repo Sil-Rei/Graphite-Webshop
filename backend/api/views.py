@@ -2,11 +2,18 @@ from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from base.models import Product, CartItem, Cart
+from base.models import Product, CartItem, Cart, UserReview, Purchase
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.shortcuts import get_list_or_404
 from rest_framework import status
-from .serializers import ProductSerializer, CartItemSerializer, CartSerializer
+from .serializers import (
+    ProductSerializer,
+    CartItemSerializer,
+    CartSerializer,
+    RegisterSerializer,
+    AddProductSerializer,
+)
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -27,6 +34,20 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
+@api_view(["POST"])
+def register_user(request):
+    print(request.data)
+    serializer = RegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        Cart.objects.create(user=user)
+        return Response("User registered", status=status.HTTP_201_CREATED)
+    return Response(
+        "Failed registration, username already exists",
+        status=status.HTTP_400_BAD_REQUEST,
+    )
+
+
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_user_cart(request):
@@ -37,7 +58,7 @@ def get_user_cart(request):
 
 
 @api_view(["GET"])
-def get_all_products(request):
+def get_bestsellers(request):
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
 
@@ -95,4 +116,110 @@ def remove_from_cart(request):
 def search_by_name(request, term):
     products = get_list_or_404(Product, Q(name__icontains=term))
     serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+def products_by_category(request, category):
+    if category == "all":
+        products = Product.objects.all()
+    else:
+        products = Product.objects.filter(category=category)
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def submit_review(request):
+    user = request.user
+    product_id = request.data["productId"]
+    product = Product.objects.get(id=product_id)
+    stars = request.data["rating"]
+    review = request.data["reviewText"]
+
+    existing_review = UserReview.objects.filter(user=user, product=product).first()
+    if existing_review:
+        return Response(
+            "You have already submitted a review for this product.",
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if stars > 5 or stars < 1:
+        return Response("Invalid star rating", status=status.HTTP_406_NOT_ACCEPTABLE)
+
+    if len(review) > 400:
+        return Response("Review too long", status=status.HTTP_406_NOT_ACCEPTABLE)
+
+    new_review = UserReview(user=user, product=product, stars=stars, review=review)
+    new_review.save()
+    return Response("Review created.", status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET"])
+@permission_classes([IsAdminUser])
+def is_admin(request):
+    return Response("admin", status=status.HTTP_200_OK)
+
+
+@api_view(["PATCH"])
+@permission_classes([IsAdminUser])
+def update_product(request):
+    product_id = request.data["data"]["id"]
+    updated_data = request.data["data"]
+
+    try:
+        product = Product.objects.get(id=product_id)
+        product.name = updated_data.get("name", product.name)
+        product.price = updated_data.get("price", product.price)
+        product.stock_quantity = updated_data.get(
+            "stock_quantity", product.stock_quantity
+        )
+
+        product.save()
+        return Response("Product updated successfully", status=status.HTTP_202_ACCEPTED)
+    except Product.DoesNotExist:
+        return Response("Product not found", status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAdminUser])
+def delete_product(request):
+    product_id = request.query_params.get("id")
+
+    try:
+        product = Product.objects.get(id=product_id)
+        product.delete()
+        return Response("Product deleted successfully", status.HTTP_200_OK)
+    except Product.DoesNotExist:
+        return Response("Product not found", status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def make_purchase(request):
+    user = request.user
+    cart = get_object_or_404(Cart, user=user)
+    cart_items = cart.items.all()
+
+    for cart_item in cart_items:
+        product = cart_item.product
+        Purchase.objects.create(user=user, product=product)
+
+    cart.items.all().delete()
+    return Response("Purchase successful", status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def add_product(request):
+    print(request.data)
+    serializer = AddProductSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

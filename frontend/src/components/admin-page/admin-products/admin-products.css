@@ -1,0 +1,38 @@
+.admin-products-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-new-product-button {
+  border: none;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.admin-new-product-button:hover {
+  background-color: rgb(47, 47, 47);
+}
+
+.admin-products-list {
+  list-style-type: none;
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
+.admin-product-search {
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 200px;
+  height: 30px;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.admin-products-row {
+  display: flex;
+  justify-content: center;
+}

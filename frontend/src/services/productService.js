@@ -55,3 +55,15 @@ export const searchForProduct = async (term) => {
     throw error;
   }
 };
+
+export const productsByCategory = async (category) => {
+  try {
+    const response = await axios.get(
+      "/api/products/category/" + category + "/"
+    );
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};

@@ -12,12 +12,17 @@ function ProfilePage() {
     navigate("/");
   };
 
+  const handleAdmin = () => {
+    navigate("/admin/");
+  };
+
   return (
     <div className="profile-container">
       <h2>Profile</h2>
       <button onClick={handleLogout} className="profile-logout-button">
         Logout
       </button>
+      <button onClick={handleAdmin}>admin area</button>
     </div>
   );
 }

@@ -1,0 +1,89 @@
+.review-section-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.review-section-info {
+  display: flex;
+  align-items: center;
+}
+
+.review-section-stars {
+  display: flex;
+  align-items: center;
+  color: #c0af71;
+  font-size: 2rem;
+  margin-left: 20px;
+}
+
+.review-section-review-count {
+  color: gray;
+  font-size: 1.2rem;
+  margin-left: 3px;
+  margin-top: 5px;
+}
+
+.review-section-reviews {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.review-section-button-row {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+}
+.review-section-error {
+  margin-left: 5px;
+  color: red;
+}
+
+.underlined {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.review-section-write-button {
+  background-color: black;
+  border: none;
+  color: white;
+  width: 140px;
+  height: 40px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.review-section-write-button:hover {
+  background-color: rgb(87, 87, 87);
+}
+
+.review-section-write-button-x {
+  color: white;
+  font-size: 1.7rem;
+  background-color: black;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 30%;
+  transition: all 0.2s;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.review-section-write-button-x:hover {
+  background-color: rgb(87, 87, 87);
+}
+
+.review-section-write-reviews {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
