@@ -39,3 +39,13 @@ export const addProduct = async (formData) => {
     throw error;
   }
 };
+
+export const getUsers = async () => {
+  try {
+    const response = await axios.get(`/api/users/all/`);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};

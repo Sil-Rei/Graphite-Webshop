@@ -3,6 +3,8 @@ import "./admin-page.css";
 import { checkIfAdmin } from "../../services/adminService";
 import { useNavigate } from "react-router-dom";
 import AdminProducts from "./admin-products/admin-products";
+import AdminUser from "./admin-users/admin-user/admin-user";
+import AdminUsers from "./admin-users/admin-users";
 
 function AdminPage() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -34,6 +36,7 @@ function AdminPage() {
       {isAdmin && (
         <div className="admin-wrapper">
           <AdminProducts />
+          <AdminUsers />
         </div>
       )}
       {!isAdmin && (

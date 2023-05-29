@@ -1,0 +1,23 @@
+.admin-user-container {
+  display: flex;
+  background-color: whitesmoke;
+  margin: 6px;
+  padding: 5px;
+  border-radius: 10px;
+  justify-content: center;
+  width: 200px;
+}
+
+.admin-user-edit-icon {
+  cursor: pointer;
+  font-size: 1.3rem;
+  margin-left: 10px;
+}
+
+.admin-user-edit-icon:hover {
+  transform: scale(1.1);
+}
+
+.is-admin {
+  border: 2px dashed red;
+}

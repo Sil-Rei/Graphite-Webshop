@@ -23,4 +23,6 @@ urlpatterns = [
     path("is-admin/", views.is_admin),
     path("product/add/", views.add_product),
     path("purchase/", views.make_purchase),
+    path("purchases/user/", views.get_user_purchases),
+    path("users/all/", views.get_all_users),
 ]
