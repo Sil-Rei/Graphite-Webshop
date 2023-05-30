@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from base.models import Product, CartItem, Cart, UserReview, Purchase
+from base.models import Product, CartItem, Cart, UserReview, Purchase, PurchaseItem
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.shortcuts import get_list_or_404
@@ -13,6 +13,8 @@ from .serializers import (
     CartSerializer,
     RegisterSerializer,
     AddProductSerializer,
+    UserSerializer,
+    PurchaseSerializer,
 )
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -69,6 +71,19 @@ def get_bestsellers(request):
 def get_product_by_id(request, product_id):
     product = Product.objects.get(id=product_id)
     serializer = ProductSerializer(product)
+
+    # check if review is a verified purchase, if so add it
+    reviews = serializer.data["reviews"]
+    for review in reviews:
+        username = review["user"]["username"]
+        purchase = Purchase.objects.filter(
+            user__username=username, items__product=product
+        ).first()
+        if purchase:
+            review["verified_purchase"] = True
+        else:
+            review["verified_purchase"] = False
+
     return Response(serializer.data)
 
 
@@ -205,10 +220,14 @@ def make_purchase(request):
     user = request.user
     cart = get_object_or_404(Cart, user=user)
     cart_items = cart.items.all()
+    purchase = Purchase.objects.create(user=user)
 
     for cart_item in cart_items:
         product = cart_item.product
-        Purchase.objects.create(user=user, product=product)
+        quantity = cart_item.quantity
+        PurchaseItem.objects.create(
+            purchase=purchase, product=product, quantity=quantity
+        )
 
     cart.items.all().delete()
     return Response("Purchase successful", status=status.HTTP_200_OK)
@@ -223,3 +242,20 @@ def add_product(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@permission_classes([IsAdminUser])
+def get_all_users(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_user_purchases(request):
+    user = request.user
+    purchases = Purchase.objects.filter(user=user)
+    serializer = PurchaseSerializer(purchases, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

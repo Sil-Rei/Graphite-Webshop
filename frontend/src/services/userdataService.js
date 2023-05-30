@@ -10,6 +10,25 @@ export const getCartItems = async () => {
   }
 };
 
+export const makePurchase = async () => {
+  try {
+    const response = await axios.get("/api/purchase/");
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};
+export const getPurchases = async () => {
+  try {
+    const response = await axios.get("/api/purchases/user/");
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};
+
 export const registerUser = async (data) => {
   console.log(data);
   try {

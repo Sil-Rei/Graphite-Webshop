@@ -30,6 +30,7 @@ function CategoryPage() {
           image={product.image}
           id={product.id}
           reviews={product.reviews}
+          quantity={product.stock_quantity}
         />
       </li>
     );

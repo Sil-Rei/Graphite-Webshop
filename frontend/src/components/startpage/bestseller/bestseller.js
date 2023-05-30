@@ -23,6 +23,7 @@ function Bestseller() {
               price={product.price}
               image={product.image}
               reviews={product.reviews}
+              quantity={product.stock_quantity}
             />
           </li>
         );

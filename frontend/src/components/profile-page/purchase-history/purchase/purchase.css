@@ -1,0 +1,32 @@
+.purchase-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  cursor: pointer;
+  transition: 0.3s all;
+  border-radius: 10px;
+}
+
+.purchase-container:hover {
+  background-color: whitesmoke;
+}
+
+.purchase-bottom-row {
+  display: flex;
+  align-items: center;
+}
+
+.purchase-image {
+  width: 70px;
+  height: 70px;
+  margin-right: 30px;
+  border-radius: 20%;
+}
+
+.hr-line {
+  height: 1px;
+  width: 250px;
+  background-color: black;
+  margin-top: 5px;
+}

@@ -1,0 +1,25 @@
+.admin-users-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-users-list {
+  list-style-type: none;
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
+.admin-user-search {
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 200px;
+  height: 30px;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.admin-users-row {
+  display: flex;
+  justify-content: center;
+}

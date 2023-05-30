@@ -9,7 +9,8 @@
 }
 
 .review-container-star-row {
-  color: #d7b539;
+  display: flex;
+  align-items: center;
 }
 
 .review-container-date {
@@ -19,4 +20,19 @@
 
 .review-container-name {
   text-transform: capitalize;
+}
+
+.stars {
+  color: #d7b539;
+}
+
+.verified-purchase {
+  margin-left: 10px;
+  color: #d7b539;
+  font-weight: bold;
+}
+
+.verified-icon {
+  font-size: 1.2rem;
+  margin-bottom: -3px;
 }
