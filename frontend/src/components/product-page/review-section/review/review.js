@@ -1,4 +1,4 @@
-import { StarFill, Star } from "react-bootstrap-icons";
+import { StarFill, Star, Check2, Check2Circle } from "react-bootstrap-icons";
 import "./review.css";
 
 function Review({ review }) {
@@ -6,10 +6,8 @@ function Review({ review }) {
 
   const filledStars = review.stars;
 
-  // Split the date string into parts
   const parts = review.date.split("-");
 
-  // Rearrange the parts in the desired format
   const formattedDate = parts[2] + "." + parts[1] + "." + parts[0];
 
   // Create an array of stars to be rendered
@@ -23,7 +21,14 @@ function Review({ review }) {
         <p className="review-container-name">{review.user.username}</p>
         <p className="review-container-date">{formattedDate}</p>
       </div>
-      <div className="review-container-star-row">{starsArray}</div>
+      <div className="review-container-star-row">
+        <p className="stars">{starsArray}</p>
+        {review.verified_purchase && (
+          <p className="verified-purchase">
+            Verified Purchase <Check2Circle className="verified-icon" />
+          </p>
+        )}
+      </div>
       <p className="review-container-text">{review.review}</p>
     </div>
   );

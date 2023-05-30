@@ -3,12 +3,15 @@ import CartItem from "./cart-item/cart-item";
 import { useContext, useEffect, useState } from "react";
 import { getCartItems, makePurchase } from "../../services/userdataService";
 import CartContext from "../../context/cartContext";
-import { EmojiFrown } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { BagCheckFill, EmojiFrown } from "react-bootstrap-icons";
+import { Link, useNavigate } from "react-router-dom";
 
 function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
   const { setCart } = useContext(CartContext);
+  const [hasBought, setHasBought] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -69,45 +72,67 @@ function ShoppingCart() {
     try {
       const response = await makePurchase();
       console.log(response);
+      setHasBought(true);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleContinueClick = () => {
+    setCart([]);
+    navigate("/");
+  };
+
   return (
-    <div className="shopping-cart-container">
-      <h1>shopping cart</h1>
-      <div className="shopping-cart-body">
-        <div className="item-section">
-          {totalPrice <= 0 && (
-            <div className="shopping-cart-empty">
-              <div className="shopping-cart-empty-icon">
-                <EmojiFrown />
-              </div>
-              <p className="shopping-cart-empty-p">Your cart is empty</p>
-              <Link to="/">
-                <button className="shopping-cart-empty-button">
-                  Go shopping
-                </button>
-              </Link>
+    <div className="outer-wrapper">
+      {!hasBought ? (
+        <div className="shopping-cart-container">
+          <h1>shopping cart</h1>
+          <div className="shopping-cart-body">
+            <div className="item-section">
+              {totalPrice <= 0 && (
+                <div className="shopping-cart-empty">
+                  <div className="shopping-cart-empty-icon">
+                    <EmojiFrown />
+                  </div>
+                  <p className="shopping-cart-empty-p">Your cart is empty</p>
+                  <Link to="/">
+                    <button className="shopping-cart-empty-button">
+                      Go shopping
+                    </button>
+                  </Link>
+                </div>
+              )}
+              <ul className="item-section-list">{mappedCartItems}</ul>
             </div>
-          )}
-          <ul className="item-section-list">{mappedCartItems}</ul>
-        </div>
-        {totalPrice > 0 ? (
-          <div className="price-section">
-            <ul className="price-section-prices">{mappedPrices}</ul>
-            <div className="price-section-hr" />
-            <p className="price-section-sum">{totalPrice}€</p>
-            <button className="checkout-button" onClick={handleCheckout}>
-              checkout
-            </button>
-            <input type="text" placeholder="coupon?" className="coupon-input" />
+            {totalPrice > 0 ? (
+              <div className="price-section">
+                <ul className="price-section-prices">{mappedPrices}</ul>
+                <div className="price-section-hr" />
+                <p className="price-section-sum">{totalPrice}€</p>
+                <button className="checkout-button" onClick={handleCheckout}>
+                  checkout
+                </button>
+                <input
+                  type="text"
+                  placeholder="coupon?"
+                  className="coupon-input"
+                />
+              </div>
+            ) : (
+              <div className="price-section" />
+            )}
           </div>
-        ) : (
-          <div className="price-section" />
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="has-bought-container">
+          <p className="bought-text">Purchase Successful!</p>
+          <BagCheckFill className="bought-icon" />
+          <button className="bought-button" onClick={handleContinueClick}>
+            Continue Shopping
+          </button>
+        </div>
+      )}
     </div>
   );
 }

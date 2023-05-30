@@ -71,6 +71,19 @@ def get_bestsellers(request):
 def get_product_by_id(request, product_id):
     product = Product.objects.get(id=product_id)
     serializer = ProductSerializer(product)
+
+    # check if review is a verified purchase, if so add it
+    reviews = serializer.data["reviews"]
+    for review in reviews:
+        username = review["user"]["username"]
+        purchase = Purchase.objects.filter(
+            user__username=username, items__product=product
+        ).first()
+        if purchase:
+            review["verified_purchase"] = True
+        else:
+            review["verified_purchase"] = False
+
     return Response(serializer.data)
 
 
