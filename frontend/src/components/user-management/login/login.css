@@ -51,3 +51,7 @@
 .forgot-password:hover {
   opacity: 1;
 }
+
+.error-login {
+  color: red;
+}

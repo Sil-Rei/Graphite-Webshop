@@ -10,7 +10,6 @@ function Purchase({ purchase }) {
   const image = "http://localhost:8000/" + purchase.items[0].product.image;
 
   const parts = purchase.purchase_date.split("-");
-
   const formattedDate = parts[2] + "." + parts[1] + "." + parts[0];
   priceSum = priceSum.toFixed(2);
   return (

@@ -16,7 +16,6 @@ function BigDisplay({ name, price, image, id, reviews, quantity }) {
   let soldoutClassname =
     quantity <= 0 ? "big-display-image sold-out-image" : "big-display-image";
 
-  console.log(name + ":" + averageRating);
   return (
     <Link to={"/product/" + id} className="big-display-link">
       <div className="big-display-container">

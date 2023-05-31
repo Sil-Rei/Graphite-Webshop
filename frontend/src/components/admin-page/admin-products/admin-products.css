@@ -20,7 +20,7 @@
 .admin-products-list {
   list-style-type: none;
   max-height: 600px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .admin-product-search {
