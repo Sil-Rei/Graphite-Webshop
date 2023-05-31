@@ -26,6 +26,7 @@ function ReviewSection({ reviews, productId, reloadCallback }) {
 
   const closeWriteReviewCallback = (message) => {
     if (message === "") {
+      setShowWriteReview(false);
       reloadCallback();
     } else {
       setShowWriteReview(false);

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getPurchases } from "../../services/userdataService";
 import PurchaseHistory from "./purchase-history/purchase-history";
 import { BoxArrowDownRight, BoxArrowRight } from "react-bootstrap-icons";
+import ReviewHistory from "./review-history/review-history";
 
 function ProfilePage() {
   const { logoutUser } = useContext(AuthContext);
@@ -32,7 +33,10 @@ function ProfilePage() {
         </button>
       </div>
 
-      <PurchaseHistory />
+      <div className="history-wrapper">
+        <PurchaseHistory />
+        <ReviewHistory />
+      </div>
     </div>
   );
 }

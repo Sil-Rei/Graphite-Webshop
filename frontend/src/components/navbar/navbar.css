@@ -118,7 +118,7 @@
   top: 65px;
   margin-left: -50px;
   z-index: 5;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .nav-results-list {

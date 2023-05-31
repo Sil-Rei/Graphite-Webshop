@@ -1,0 +1,9 @@
+.review-history-review-container {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.review-history-review-container:hover {
+  background-color: whitesmoke;
+}
