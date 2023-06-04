@@ -48,3 +48,13 @@
 .profile-admin-button:hover {
   background-color: rgb(220, 84, 84);
 }
+
+.history-wrapper {
+  display: flex;
+}
+
+@media (max-width: 500px) {
+  .history-wrapper {
+    flex-direction: column;
+  }
+}

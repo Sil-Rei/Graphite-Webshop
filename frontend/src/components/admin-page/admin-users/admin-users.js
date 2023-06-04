@@ -34,8 +34,8 @@ function AdminUsers() {
     user.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const mappedusers = filteredUsers.map((user) => (
-    <li key={user.id}>
+  const mappedusers = filteredUsers.map((user, index) => (
+    <li key={index}>
       <AdminUser user={user} reloadCallback={reloadCallback} />
     </li>
   ));

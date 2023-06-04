@@ -15,6 +15,7 @@ from .serializers import (
     AddProductSerializer,
     UserSerializer,
     PurchaseSerializer,
+    UserReviewSerializer,
 )
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -259,3 +260,27 @@ def get_user_purchases(request):
     purchases = Purchase.objects.filter(user=user)
     serializer = PurchaseSerializer(purchases, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_user_reviews(request):
+    user = request.user
+    reviews = UserReview.objects.filter(user=user)
+    serializer = UserReviewSerializer(reviews, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def delete_user_review(request):
+    print(request.data)
+    user = request.user
+    review_id = request.query_params.get("id")
+
+    try:
+        review = UserReview.objects.get(user=user, id=review_id)
+        review.delete()
+        return Response(status=status.HTTP_202_ACCEPTED)
+    except UserReview.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)

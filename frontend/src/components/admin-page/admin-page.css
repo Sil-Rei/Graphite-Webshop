@@ -1,11 +1,14 @@
 .admin-container {
   display: flex;
+
   justify-content: center;
 }
 
 .admin-wrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .not-admin-wrapper {
@@ -15,4 +18,17 @@
 .not-admin-wrapper span {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.admin-chart-row {
+}
+
+.admin-bottom-row {
+  display: flex;
+}
+
+@media (max-width: 600px) {
+  .admin-bottom-row {
+    flex-direction: column;
+  }
 }

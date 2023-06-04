@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import "./purchase-history.css";
 import { getPurchases } from "../../../services/userdataService";
 import Purchase from "./purchase/purchase";
+import { useNavigate } from "react-router-dom";
 
 function PurchaseHistory() {
   const [purchases, setPurchases] = useState([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const fetchCartItems = async () => {
+    const fetchPurchases = async () => {
       try {
         const response = await getPurchases();
         console.log(response);
@@ -16,12 +19,20 @@ function PurchaseHistory() {
         console.log(error);
       }
     };
-    fetchCartItems();
+    fetchPurchases();
   }, []);
+
+  const handleClick = (id) => {
+    navigate("/purchase/" + id);
+  };
 
   const mappedPurchases = purchases.map((purchase) => {
     return (
-      <li className="purchase" key={purchase.id}>
+      <li
+        className="purchase"
+        key={purchase.id}
+        onClick={() => handleClick(purchase.id)}
+      >
         <Purchase purchase={purchase} />
       </li>
     );

@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
       navigate("/");
     } catch (error) {
       console.error(error);
-      alert("Something went wrong");
+      alert("Wrong password or username");
     }
   };
 
