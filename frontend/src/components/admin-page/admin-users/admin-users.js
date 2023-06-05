@@ -41,7 +41,7 @@ function AdminUsers() {
   ));
   return (
     <div className="admin-users-container">
-      <h2>users</h2>
+      <h2>Users</h2>
       <div className="admin-users-row">
         <input
           type="text"

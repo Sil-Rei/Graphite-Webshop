@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from django.db.models import Q
+from django.db.models import Q, Count
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from base.models import Product, CartItem, Cart, UserReview, Purchase, PurchaseItem
@@ -17,6 +17,8 @@ from .serializers import (
     PurchaseSerializer,
     UserReviewSerializer,
 )
+from django.utils import timezone
+from datetime import timedelta
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -284,3 +286,23 @@ def delete_user_review(request):
         return Response(status=status.HTTP_202_ACCEPTED)
     except UserReview.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(["GET"])
+@permission_classes([IsAdminUser])
+def get_sales_data(request):
+    end_date = timezone.now().date()
+    start_date = end_date - timedelta(days=29)
+
+    sales_data = (
+        Purchase.objects.filter(purchase_date__range=(start_date, end_date))
+        .values("purchase_date")
+        .annotate(total_sales=Count("id"))
+    )
+
+    response_data = [
+        {"date": item["purchase_date"], "sales": item["total_sales"]}
+        for item in sales_data
+    ]
+
+    return Response(response_data)

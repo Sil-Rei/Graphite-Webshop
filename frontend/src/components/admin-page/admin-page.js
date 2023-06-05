@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AdminProducts from "./admin-products/admin-products";
 import AdminUsers from "./admin-users/admin-users";
 import Inventory from "./inventory-chart/inventory";
+import SalesChart from "./admin-sales-chart/sales-chart";
 
 function AdminPage() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -37,6 +38,7 @@ function AdminPage() {
         <div className="admin-wrapper">
           <div className="admin-chart-row">
             <Inventory />
+            <SalesChart />
           </div>
           <div className="admin-bottom-row">
             <AdminProducts />
