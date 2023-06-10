@@ -71,6 +71,14 @@ function ProductPage() {
     return 0;
   };
 
+  const handleClickScroll = () => {
+    const element = document.getElementById("reviews");
+    console.log(element);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="product-page-container">
       <div className="product-page-main">
@@ -80,7 +88,7 @@ function ProductPage() {
           alt="pink pen"
         />
         <div className="product-page-right">
-          <div className="product-page-stars">
+          <div className="product-page-stars" onClick={handleClickScroll}>
             <StarFill />
             {productData.reviews && (
               <>
@@ -133,6 +141,7 @@ function ProductPage() {
           </div>
         </div>
       </div>
+      <div id="reviews"></div>
       <ReviewSection
         reviews={productData.reviews}
         productId={productData.id}
