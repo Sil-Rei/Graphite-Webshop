@@ -131,8 +131,10 @@ function Navbar() {
             <Person />
           </Link>
           <Link to="/shopping-cart" className="nav-icon" id="nav-icon-cart">
-            {cartItems > 0 ? <CartFill /> : <Cart2 />}
-            {cartItems > 0 && <p className="nav-cart-number">{cartItems}</p>}
+            {cartItems.length > 0 ? <CartFill /> : <Cart2 />}
+            {cartItems.length > 0 && (
+              <p className="nav-cart-number">{cartItems.length}</p>
+            )}
           </Link>
           <div className="nav-icon nav-chat">
             <ChatLeftDots />

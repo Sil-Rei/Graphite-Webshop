@@ -5,6 +5,7 @@ import { addToCart, getProductById } from "../../services/productService";
 import { useParams } from "react-router-dom";
 import CartContext from "../../context/cartContext";
 import ReviewSection from "./review-section/review-section";
+import AuthContext from "../../context/authContext";
 
 function ProductPage() {
   const [buyAmount, setBuyAmount] = useState(1);
@@ -12,7 +13,8 @@ function ProductPage() {
   const [error, setError] = useState(null);
   const [reviewWritten, setReviewWritten] = useState(false);
 
-  const { addCartItem } = useContext(CartContext);
+  const { addCartItem, cartItems } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
 
   const { productId } = useParams();
 
@@ -48,17 +50,27 @@ function ProductPage() {
   }, [error]);
 
   const handleAddCart = async () => {
-    try {
-      await addToCart(productId, buyAmount);
-      addCartItem();
-      setProductData((prevData) => ({
-        ...prevData,
-        stock_quantity: prevData.stock_quantity - buyAmount,
-      }));
-    } catch (error) {
-      setError(error.response.data);
-      console.log(error);
+    // check if user is logged in, if not, store it locally
+    let nextCartId = cartItems && cartItems.length ? cartItems.length + 1 : 1;
+    if (user) {
+      try {
+        await addToCart(productId, buyAmount);
+        console.log(productData);
+        addCartItem({ product: "product", quantity: 1, id: nextCartId });
+        setProductData((prevData) => ({
+          ...prevData,
+          stock_quantity: prevData.stock_quantity - buyAmount,
+        }));
+      } catch (error) {
+        console.log(error);
+      }
+      return;
     }
+    addCartItem({
+      product: productData,
+      quantity: parseInt(buyAmount),
+      id: nextCartId,
+    });
   };
 
   const getAverageStars = () => {

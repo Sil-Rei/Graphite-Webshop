@@ -8,7 +8,7 @@ import { BoxArrowDownRight, BoxArrowRight } from "react-bootstrap-icons";
 import ReviewHistory from "./review-history/review-history";
 
 function ProfilePage() {
-  const { logoutUser } = useContext(AuthContext);
+  const { logoutUser, user } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ function ProfilePage() {
 
   return (
     <div className="profile-container">
-      <h2>Profile</h2>
+      <h2>Hey, {user.username}!</h2>
       <div className="profile-button-row">
         <button onClick={handleLogout} className="profile-logout-button">
           Logout <BoxArrowRight className="logout-icon" />

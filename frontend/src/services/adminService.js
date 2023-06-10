@@ -50,6 +50,18 @@ export const getUsers = async () => {
   }
 };
 
+export const deleteUser = async (username) => {
+  try {
+    const response = await axios.delete(
+      `/api/user/delete/?username=${username}`
+    );
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};
+
 export const getSalesData = async () => {
   try {
     const response = await axios.get(`api/data/sales/`);

@@ -13,7 +13,6 @@ function ShowCase({ category }) {
   useEffect(() => {
     async function fetchData() {
       const result = await productsByCategory(category);
-      console.log(result);
 
       const renderedProducts = result.map((product, key) => {
         return (

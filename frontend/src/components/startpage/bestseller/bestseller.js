@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import "./bestseller.css";
 import BigDisplay from "./big-display/big-display";
-import {
-  getAllProducts,
-  productsByCategory,
-} from "../../../services/productService";
+import { productsByCategory } from "../../../services/productService";
 
 function Bestseller() {
   const [bestsellers, setBestsellers] = useState([]);
@@ -12,7 +9,6 @@ function Bestseller() {
   useEffect(() => {
     async function fetchData() {
       const result = await productsByCategory("all");
-      console.log(result);
 
       const renderedProducts = result.map((product, key) => {
         return (

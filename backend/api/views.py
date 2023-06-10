@@ -288,6 +288,18 @@ def delete_user_review(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def delete_user(request):
+    username = request.query_params.get("username")
+    try:
+        user = User.objects.get(username=username)
+        user.delete()
+        return Response("User deleted successfully", status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response("User not found", status=status.HTTP_404_NOT_FOUND)
+
+
 @api_view(["GET"])
 @permission_classes([IsAdminUser])
 def get_sales_data(request):

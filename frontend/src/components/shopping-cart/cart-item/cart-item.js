@@ -3,6 +3,7 @@ import "./cart-item.css";
 
 import { XCircle } from "react-bootstrap-icons";
 import { removeFromCart } from "../../../services/productService";
+import AuthContext from "../../../context/authContext";
 
 function CartItem({
   name,
@@ -15,20 +16,32 @@ function CartItem({
   stockQuantity,
 }) {
   const [buyAmount, setBuyAmount] = useState(amount);
+  const { user } = useContext(AuthContext);
 
-  const imageURL = "http://localhost:8000" + image;
+  let imageURL = image;
+
+  if (!image.includes("http")) {
+    imageURL = "http://localhost:8000" + image;
+  }
+
+  console.log(imageURL);
+
   const handleChange = (event) => {
     setBuyAmount(event.target.value);
   };
 
   const handleRemoveClick = async () => {
-    try {
-      console.log(cartId, itemId);
-      const result = await removeFromCart(cartId, itemId);
+    if (user) {
+      try {
+        console.log(cartId, itemId);
+        const result = await removeFromCart(cartId, itemId);
+        onDelete(itemId);
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
       onDelete(itemId);
-      console.log(result);
-    } catch (error) {
-      console.log(error);
     }
   };
 

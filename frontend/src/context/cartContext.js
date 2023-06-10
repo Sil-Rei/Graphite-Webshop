@@ -3,18 +3,23 @@ import { createContext, useState } from "react";
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
 
   const setCart = (items) => {
     setCartItems(items);
   };
 
-  const addCartItem = () => {
-    setCartItems(cartItems + 1);
+  const addCartItem = (item) => {
+    console.log(cartItems);
+    setCartItems([...cartItems, item]);
   };
 
-  const removeCartItem = () => {
-    setCartItems(cartItems - 1);
+  const removeCartItem = (itemId) => {
+    setCartItems(cartItems.filter((item) => item.id !== itemId));
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
   };
 
   let contextData = {
@@ -22,6 +27,7 @@ export const CartProvider = ({ children }) => {
     setCart,
     addCartItem,
     removeCartItem,
+    clearCart,
   };
 
   return (

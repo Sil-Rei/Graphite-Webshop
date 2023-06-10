@@ -57,7 +57,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateTokens = async () => {
-    console.log("update token called");
     try {
       let response = await axios.post("/api/token/refresh/", {
         refresh: authTokens?.refresh,
