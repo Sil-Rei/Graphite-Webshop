@@ -133,7 +133,7 @@ function ReviewSection({ reviews, productId, reloadCallback }) {
       <h2>Reviews</h2>
       <div className="review-section-info">
         <div className="review-section-chart">
-          <Bar data={chartData} options={chartOptions} />
+          <Bar data={chartData} options={chartOptions} className="review-section-bar-chart"/>
         </div>
         <div className="review-section-stars">
           <StarFill />
