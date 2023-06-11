@@ -63,6 +63,7 @@ function ProductPage() {
         }));
       } catch (error) {
         console.log(error);
+        setError(error.response.data);
       }
       return;
     }
