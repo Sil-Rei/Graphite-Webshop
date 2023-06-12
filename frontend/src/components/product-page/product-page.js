@@ -7,6 +7,9 @@ import CartContext from "../../context/cartContext";
 import ReviewSection from "./review-section/review-section";
 import AuthContext from "../../context/authContext";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function ProductPage() {
   const [buyAmount, setBuyAmount] = useState(1);
   const [productData, setProductData] = useState({});
@@ -65,6 +68,7 @@ function ProductPage() {
         console.log(error);
         setError(error.response.data);
       }
+      toast("Added item to cart!");
       return;
     }
     addCartItem({
@@ -72,6 +76,7 @@ function ProductPage() {
       quantity: parseInt(buyAmount),
       id: nextCartId,
     });
+    toast("Added item to cart!");
   };
 
   const getAverageStars = () => {
@@ -94,6 +99,7 @@ function ProductPage() {
 
   return (
     <div className="product-page-container">
+      <ToastContainer autoClose={2000} />
       <div className="product-page-main">
         <img
           className="product-page-main-image"
