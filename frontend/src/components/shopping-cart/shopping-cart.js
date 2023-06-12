@@ -1,43 +1,68 @@
 import "./shopping-cart.css";
 import CartItem from "./cart-item/cart-item";
 import { useContext, useEffect, useState } from "react";
-import { getCartItems, makePurchase } from "../../services/userdataService";
+import {
+  getCartItems,
+  makePurchase,
+  syncCartContext,
+} from "../../services/userdataService";
 import CartContext from "../../context/cartContext";
 import { BagCheckFill, EmojiFrown } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../../context/authContext";
 
 function ShoppingCart() {
-  const [cartItems, setCartItems] = useState([]);
-  const { setCart } = useContext(CartContext);
+  const [cartItemsState, setCartItemsState] = useState([]);
+  const { setCart, cartItems, removeCartItem } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
   const [hasBought, setHasBought] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(cartItems);
     const fetchCartItems = async () => {
       try {
         const items = await getCartItems();
-        console.log(items.items);
-        setCartItems(items.items);
-        setCart(items.items.length);
+        // when not server stored items are in the context, sync the context items with the backend
+        console.log(cartItems.length);
+        console.log(items);
+        if (
+          (items.items.length === 0 || items === undefined) &&
+          cartItems.length > 0
+        ) {
+          console.log("synced cartContext");
+          await syncCartContext(cartItems);
+          setRefresh(!refresh);
+        }
+        setCartItemsState(items.items);
+        setCart(items?.items);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchCartItems();
-  }, []);
+    if (user) {
+      fetchCartItems();
+    } else {
+      setCartItemsState(cartItems);
+    }
+  }, [refresh]);
 
   // callback function for cart-item child component
   const handleItemDelete = (itemId) => {
     // Update the cartItems state by removing the deleted item
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
-    // Update the cart count
-    setCart((prevCount) => prevCount - 1);
+    setCartItemsState((prevItems) =>
+      prevItems.filter((item) => item.id !== itemId)
+    );
+
+    removeCartItem(itemId);
   };
 
-  const mappedCartItems = cartItems.map((item) => {
+  const mappedCartItems = cartItemsState.map((item) => {
+    console.log(cartItemsState);
     return (
-      <li className="item" key={item.product.id}>
+      <li className="item" key={item.id}>
         <CartItem
           name={item.product.name}
           price={item.product.price}
@@ -53,7 +78,7 @@ function ShoppingCart() {
     );
   });
 
-  const mappedPrices = cartItems.map((item, key) => {
+  const mappedPrices = cartItemsState.map((item, key) => {
     return (
       <li key={key}>
         {item.quantity} x {item.product.price}
@@ -63,12 +88,16 @@ function ShoppingCart() {
 
   // calculate price sum
   let totalPrice = 0;
-  cartItems.forEach((item) => {
+  cartItemsState.forEach((item) => {
     totalPrice += item.quantity * item.product.price;
   });
   totalPrice = totalPrice.toFixed(2);
 
   const handleCheckout = async () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
     try {
       const response = await makePurchase();
       console.log(response);

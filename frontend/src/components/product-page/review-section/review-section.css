@@ -87,3 +87,9 @@
   align-items: center;
   width: 100%;
 }
+
+@media (max-width: 800px) {
+  .review-section-container {
+    width: 90vw;
+  }
+}

@@ -21,3 +21,13 @@
 .is-admin {
   border: 2px dashed red;
 }
+
+.admin-user-trash-icon {
+  margin-left: 10px;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.admin-user-trash-icon:hover {
+  transform: scale(1.1);
+}

@@ -2,8 +2,6 @@ import { StarFill, Star, Check2, Check2Circle } from "react-bootstrap-icons";
 import "./review.css";
 
 function Review({ review }) {
-  console.log(review);
-
   const filledStars = review.stars;
 
   const parts = review.date.split("-");
