@@ -75,6 +75,8 @@ The webshop includes an admin page that offers convenient management of users an
 
 ### Search Functionality
 
+### Verified Purchases
+
 
 ## Usage
 
