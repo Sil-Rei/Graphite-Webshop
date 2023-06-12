@@ -69,7 +69,12 @@ Customers can write reviews for products they have purchased or are interested i
 
 ### Admin Page
 
-The webshop includes an admin page that offers convenient management of users and products. Admin users have access to the admin page, where they can register new users, edit user information, add new products, and update existing product details. This feature is designed to provide administrative control over the webshop's user and product database.
+The webshop includes an admin page that offers convenient management of users and products. Admin users have access to the admin page, where they can register new users, edit user information, add new products, and update existing product details. This feature is designed to provide administrative control over the webshop's user and product database. Furthermore there are charts to control the stock and sales.
+
+### Non logged in users can add to cart as well, gets synced after registration
+
+### Search Functionality
+
 
 ## Usage
 
