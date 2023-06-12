@@ -24,8 +24,6 @@ function CartItem({
     imageURL = "http://localhost:8000" + image;
   }
 
-  console.log(imageURL);
-
   const handleChange = (event) => {
     setBuyAmount(event.target.value);
   };

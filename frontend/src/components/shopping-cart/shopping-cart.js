@@ -1,7 +1,11 @@
 import "./shopping-cart.css";
 import CartItem from "./cart-item/cart-item";
 import { useContext, useEffect, useState } from "react";
-import { getCartItems, makePurchase } from "../../services/userdataService";
+import {
+  getCartItems,
+  makePurchase,
+  syncCartContext,
+} from "../../services/userdataService";
 import CartContext from "../../context/cartContext";
 import { BagCheckFill, EmojiFrown } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,6 +16,7 @@ function ShoppingCart() {
   const { setCart, cartItems, removeCartItem } = useContext(CartContext);
   const { user } = useContext(AuthContext);
   const [hasBought, setHasBought] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const navigate = useNavigate();
 
@@ -20,7 +25,17 @@ function ShoppingCart() {
     const fetchCartItems = async () => {
       try {
         const items = await getCartItems();
-        console.log(items.items);
+        // when not server stored items are in the context, sync the context items with the backend
+        console.log(cartItems.length);
+        console.log(items);
+        if (
+          (items.items.length === 0 || items === undefined) &&
+          cartItems.length > 0
+        ) {
+          console.log("synced cartContext");
+          await syncCartContext(cartItems);
+          setRefresh(!refresh);
+        }
         setCartItemsState(items.items);
         setCart(items?.items);
       } catch (error) {
@@ -32,7 +47,7 @@ function ShoppingCart() {
     } else {
       setCartItemsState(cartItems);
     }
-  }, []);
+  }, [refresh]);
 
   // callback function for cart-item child component
   const handleItemDelete = (itemId) => {

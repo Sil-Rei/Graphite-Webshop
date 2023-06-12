@@ -29,4 +29,5 @@ urlpatterns = [
     path("users/all/", views.get_all_users),
     path("data/sales/", views.get_sales_data),
     path("user/delete/", views.delete_user),
+    path("sync-cart/", views.sync_cart),
 ]

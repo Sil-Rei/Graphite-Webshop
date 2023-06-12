@@ -318,3 +318,35 @@ def get_sales_data(request):
     ]
 
     return Response(response_data)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def sync_cart(request):
+    user = request.user
+    cart = Cart.objects.get(user=user)
+
+    items = request.data["data"]
+
+    cart.items.all().delete()
+
+    for item in items:
+        product_id = item.get("product").get("id")
+        quantity = item.get("quantity")
+
+        product = Product.objects.get(id=product_id)
+
+        if quantity > product.stock_quantity:
+            return Response("Not enough in stock", status=status.HTTP_400_BAD_REQUEST)
+        elif quantity <= 0:
+            return Response(
+                "Quantity must be positive", status=status.HTTP_400_BAD_REQUEST
+            )
+
+        new_cart_item = CartItem(cart=cart, product=product, quantity=quantity)
+        new_cart_item.save()
+
+        product.stock_quantity -= quantity
+        product.save()
+
+    return Response("Cart synchronized", status=status.HTTP_200_OK)
