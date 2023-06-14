@@ -31,4 +31,5 @@ urlpatterns = [
     path("user/delete/", views.delete_user),
     path("sync-cart/", views.sync_cart),
     path("cart/update-quantity/", views.cart_update_quantity),
+    path("newsletter/subscribe/", views.subscribe_to_newsletter),
 ]

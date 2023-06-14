@@ -90,3 +90,15 @@ export const updateCartQuantity = async (id, newQuantity) => {
     throw error;
   }
 };
+
+export const subscribeNewsletter = async (email) => {
+  try {
+    const response = await axios.post("/api/newsletter/subscribe/", {
+      email,
+    });
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};

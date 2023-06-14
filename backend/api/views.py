@@ -2,10 +2,20 @@ from rest_framework.response import Response
 from django.db.models import Q, Count
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from base.models import Product, CartItem, Cart, UserReview, Purchase, PurchaseItem
+from base.models import (
+    Product,
+    CartItem,
+    Cart,
+    UserReview,
+    Purchase,
+    PurchaseItem,
+    Coupon,
+)
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.shortcuts import get_list_or_404
+from .emailutils import Emailutils
+from django.utils.crypto import get_random_string
 from rest_framework import status
 from .serializers import (
     ProductSerializer,
@@ -365,3 +375,26 @@ def cart_update_quantity(request):
     cart_item.quantity = new_quantity
     cart_item.save()
     return Response("Updated quantity", status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+def subscribe_to_newsletter(request):
+    print("received")
+    to = request.data["email"]
+    subject = "graphite - Welcome to our newsletter"
+
+    coupon_code = get_random_string(length=8)
+
+    # Create a new coupon
+    coupon = Coupon.objects.create(email=to, code=coupon_code, discount=10)
+
+    body = f"Hey mate,\n\nThank you for signing up for our graphite newsletter. Here is your 10% coupon code as small thank you: \n\n{coupon}\n\nBest regards,\nYour graphite Team"
+
+    # Send the email
+    print("trying send")
+    Emailutils.send_email(to=to, subject=subject, body=body)
+    print("send?")
+
+    return Response(
+        {"message": "Email sent and coupon generated successfully"}, status=200
+    )
