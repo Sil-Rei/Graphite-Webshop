@@ -22,12 +22,21 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
+  const updateCartItemQuantity = (itemId, newQuantity) => {
+    setCartItems((prevCartItems) =>
+      prevCartItems.map((item) =>
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
   let contextData = {
     cartItems,
     setCart,
     addCartItem,
     removeCartItem,
     clearCart,
+    updateCartItemQuantity,
   };
 
   return (

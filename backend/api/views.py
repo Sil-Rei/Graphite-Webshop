@@ -332,7 +332,7 @@ def sync_cart(request):
 
     for item in items:
         product_id = item.get("product").get("id")
-        quantity = item.get("quantity")
+        quantity = int(item.get("quantity"))
 
         product = Product.objects.get(id=product_id)
 
@@ -350,3 +350,18 @@ def sync_cart(request):
         product.save()
 
     return Response("Cart synchronized", status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def cart_update_quantity(request):
+    user = request.user
+    print(request.data)
+    cart_item_id = request.data["id"]
+    cart_item = CartItem.objects.get(id=cart_item_id)
+    new_quantity = int(request.data["newQuantity"])
+    if new_quantity > cart_item.product.stock_quantity or new_quantity <= 0:
+        return Response("Invalid quantity", status=status.HTTP_403_FORBIDDEN)
+    cart_item.quantity = new_quantity
+    cart_item.save()
+    return Response("Updated quantity", status.HTTP_200_OK)

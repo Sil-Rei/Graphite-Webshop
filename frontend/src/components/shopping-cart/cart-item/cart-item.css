@@ -33,6 +33,10 @@
   width: 40px;
 }
 
+.card-item-amount:focus {
+  outline: none;
+}
+
 .remove-item {
   cursor: pointer;
   position: absolute;
@@ -44,4 +48,30 @@
 
 .remove-item:hover {
   opacity: 1;
+}
+
+.card-item-error {
+  border: 1px solid red;
+  animation: input-error 0.5s linear;
+}
+
+@keyframes input-error {
+  0% {
+    transform: translateY(0px);
+  }
+  20% {
+    transform: translateY(10px);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(10px);
+  }
+  80% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }

@@ -77,3 +77,16 @@ export const syncCartContext = async (data) => {
     throw error;
   }
 };
+
+export const updateCartQuantity = async (id, newQuantity) => {
+  try {
+    const response = await axios.post("/api/cart/update-quantity/", {
+      id,
+      newQuantity,
+    });
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};
