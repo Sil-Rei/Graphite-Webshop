@@ -102,3 +102,15 @@ export const subscribeNewsletter = async (email) => {
     throw error;
   }
 };
+
+export const validateCoupon = async (coupon) => {
+  try {
+    const response = await axios.post("/api/coupon/validate/", {
+      coupon,
+    });
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};

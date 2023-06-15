@@ -398,3 +398,18 @@ def subscribe_to_newsletter(request):
     return Response(
         {"message": "Email sent and coupon generated successfully"}, status=200
     )
+
+
+@api_view(["POST"])
+def validate_coupon(request):
+    coupon_code = request.data["coupon"]
+
+    try:
+        coupon = Coupon.objects.get(code=coupon_code, is_used=False)
+    except Coupon.DoesNotExist:
+        return Response({"message": "Invalid coupon"}, status=400)
+
+    coupon.is_used = True
+    coupon.save()
+
+    return Response({"message": "Coupon validated successfully"}, status=200)
