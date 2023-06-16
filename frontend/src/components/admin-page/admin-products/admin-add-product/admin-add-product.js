@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./admin-add-product.css";
 import { addProduct } from "../../../../services/adminService";
 
-function AdminAddProduct({ showAddProductCallback }) {
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+function AdminAddProduct({ showAddProductCallback, user }) {
   const [product, setProduct] = useState({
     image: null,
     name: "",
@@ -15,6 +18,12 @@ function AdminAddProduct({ showAddProductCallback }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (user.username === "demoadmin") {
+      toast.error("Sorry. The demo admin can't add products.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("image", product.image);
     formData.append("name", product.name);
@@ -65,6 +74,7 @@ function AdminAddProduct({ showAddProductCallback }) {
   return (
     <form onSubmit={handleSubmit} className="admin-add-product-container">
       <h3>Add Product</h3>
+      <ToastContainer />
       <input
         type="text"
         name="name"

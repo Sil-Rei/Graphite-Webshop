@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./admin-page.css";
 import { checkIfAdmin } from "../../services/adminService";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +6,16 @@ import AdminProducts from "./admin-products/admin-products";
 import AdminUsers from "./admin-users/admin-users";
 import Inventory from "./inventory-chart/inventory";
 import SalesChart from "./admin-sales-chart/sales-chart";
+import AuthContext from "../../context/authContext";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AdminPage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,6 +40,7 @@ function AdminPage() {
 
   return (
     <div className="admin-container">
+      <ToastContainer />
       {isAdmin && (
         <div className="admin-wrapper">
           <div className="admin-chart-row">
@@ -41,8 +48,8 @@ function AdminPage() {
             <SalesChart />
           </div>
           <div className="admin-bottom-row">
-            <AdminProducts />
-            <AdminUsers />
+            <AdminProducts user={user} />
+            <AdminUsers user={user} />
           </div>
         </div>
       )}

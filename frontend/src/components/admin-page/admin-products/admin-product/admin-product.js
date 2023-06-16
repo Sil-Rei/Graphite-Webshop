@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./admin-product.css";
 import { Pencil, Trash, TrashFill } from "react-bootstrap-icons";
 import AdminProductEdit from "../admin-product-edit/admin-product-edit";
 import { deleteProduct } from "../../../../services/adminService";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AuthContext from "../../../../context/authContext";
+
 function AdminProduct({ product, reloadCallback }) {
+  const { user } = useContext(AuthContext);
   const [showEdit, setShowEdit] = useState(false);
 
   const handleEditClick = () => {
@@ -12,6 +17,11 @@ function AdminProduct({ product, reloadCallback }) {
   };
 
   const handleTrashClick = async () => {
+    if (user.username === "demoadmin") {
+      toast.error("Sorry. The demo admin can't delete products.");
+      return;
+    }
+
     if (window.confirm("Do you really want to delete " + product.name + "?")) {
       try {
         const response = await deleteProduct(product.id);

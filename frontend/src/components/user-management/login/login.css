@@ -55,3 +55,6 @@
 .error-login {
   color: red;
 }
+.login-info-admin {
+  opacity: 0.6;
+}
