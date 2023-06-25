@@ -19,7 +19,7 @@ SECRET_KEY = "django-insecure-h%!egi148ma#fto*#@qj5^!w)frw@og3hx8&_wvc^$%qw%_5pd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "graphite-webshop-8da1e10f5d95.herokuapp.com"]
 
 
 # Application definition
