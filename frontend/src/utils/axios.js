@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://graphite-webshop-8da1e10f5d95.herokuapp.com/",
 });
 
 axiosInstance.interceptors.request.use(
