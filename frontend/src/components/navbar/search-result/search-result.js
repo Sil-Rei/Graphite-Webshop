@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./search-result.css";
 
 function SearchResult({ image, name, price, id }) {
-  let imageUrl = "http://localhost:8000/" + image;
+  let imageUrl = "https://graphite-webshop-8da1e10f5d95.herokuapp.com/" + image;
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/product/" + id);

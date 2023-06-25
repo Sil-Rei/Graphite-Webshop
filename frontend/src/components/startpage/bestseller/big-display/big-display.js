@@ -3,7 +3,8 @@ import "./big-display.css";
 import { StarFill } from "react-bootstrap-icons";
 
 function BigDisplay({ name, price, image, id, reviews, quantity }) {
-  const imageURL = "http://localhost:8000" + image;
+  const imageURL =
+    "https://graphite-webshop-8da1e10f5d95.herokuapp.com/" + image;
   let averageRating = 0;
   if (reviews) {
     if (reviews.length !== 0) {

@@ -32,7 +32,8 @@ function ProductPage() {
   useEffect(() => {
     async function fetchData() {
       const result = await getProductById(productId);
-      result.image = "http://localhost:8000/" + result.image;
+      result.image =
+        "https://graphite-webshop-8da1e10f5d95.herokuapp.com/" + result.image;
       setProductData(result);
     }
     fetchData();

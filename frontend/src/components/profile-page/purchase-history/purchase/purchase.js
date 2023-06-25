@@ -7,7 +7,9 @@ function Purchase({ purchase }) {
     priceSum += purchase.items[i].quantity * purchase.items[i].product.price;
     totalItems += purchase.items[i].quantity;
   }
-  const image = "http://localhost:8000/" + purchase.items[0].product.image;
+  const image =
+    "https://graphite-webshop-8da1e10f5d95.herokuapp.com/" +
+    purchase.items[0].product.image;
 
   const parts = purchase.purchase_date.split("-");
   const formattedDate = parts[2] + "." + parts[1] + "." + parts[0];
