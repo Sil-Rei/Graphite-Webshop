@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField()
-    image = models.ImageField(upload_to="product_images/", blank=True, null=True)
+    image = CloudinaryField("image")
     stock_quantity = models.PositiveIntegerField(default=0)
     category = models.CharField(max_length=200, default="miscellaneous")
 

@@ -2,6 +2,10 @@ from pathlib import Path
 from datetime import timedelta
 import os
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -35,6 +39,7 @@ INSTALLED_APPS = [
     "base",
     "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
+    "cloudinary",
 ]
 
 REST_FRAMEWORK = {
@@ -42,6 +47,12 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
 }
+
+cloudinary.config(
+    cloud_name="dgsmccttl",
+    api_key="866619194621524",
+    api_secret="rY-HBzJpDOpNBNBbnJip9K2sPPs",
+)
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
