@@ -8,8 +8,7 @@ function Purchase({ purchase }) {
     totalItems += purchase.items[i].quantity;
   }
   const image =
-    "https://graphite-webshop-8da1e10f5d95.herokuapp.com/" +
-    purchase.items[0].product.image;
+    "https://res.cloudinary.com/dgsmccttl/" + purchase.items[0].product.image;
 
   const parts = purchase.purchase_date.split("-");
   const formattedDate = parts[2] + "." + parts[1] + "." + parts[0];

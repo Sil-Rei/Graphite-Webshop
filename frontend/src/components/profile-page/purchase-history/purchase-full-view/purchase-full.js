@@ -43,10 +43,7 @@ function PurchaseFull() {
       <li className="purchase-item" key={item.id}>
         <img
           className="purchase-item-image"
-          src={
-            "https://graphite-webshop-8da1e10f5d95.herokuapp.com/" +
-            item.product.image
-          }
+          src={"https://res.cloudinary.com/dgsmccttl/" + item.product.image}
           alt=""
         />
         {item.product.name}

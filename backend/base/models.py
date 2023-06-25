@@ -6,7 +6,7 @@ from cloudinary.models import CloudinaryField
 class Product(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField()
-    image = CloudinaryField("image")
+    image = CloudinaryField("image", null=True)
     stock_quantity = models.PositiveIntegerField(default=0)
     category = models.CharField(max_length=200, default="miscellaneous")
 

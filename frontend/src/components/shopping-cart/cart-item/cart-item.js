@@ -25,7 +25,7 @@ function CartItem({
   let imageURL = image;
 
   if (!image.includes("http")) {
-    imageURL = "https://graphite-webshop-8da1e10f5d95.herokuapp.com/" + image;
+    imageURL = "https://res.cloudinary.com/dgsmccttl/" + image;
   }
 
   const handleChange = (event) => {
