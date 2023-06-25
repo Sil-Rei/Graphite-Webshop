@@ -57,9 +57,11 @@ function Login() {
           name="password"
         />
       </div>
+
       <button type="submit" className="login-button">
         login
       </button>
+      <p className="login-info-admin">Demo: demoadmin - demo</p>
       <p className="error-login">{error}</p>
       <p className="forgot-password">forgot password?</p>
     </form>

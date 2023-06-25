@@ -1,10 +1,17 @@
-.admin-product-edit-container {
+.admin-user-edit-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.admin-product-edit-save-button {
+.admin-user-edit-input {
+  border: 2px solid black;
+  border-radius: 10px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.admin-user-edit-save-button {
   width: 80px;
   height: 30px;
   margin-top: 5px;
@@ -15,13 +22,6 @@
   cursor: pointer;
 }
 
-.admin-product-edit-save-button:hover {
+.admin-user-edit-save-button:hover {
   background-color: rgb(47, 47, 47);
-}
-
-.admin-product-edit-input {
-  border: 2px solid black;
-  border-radius: 10px;
-  margin-right: 5px;
-  padding: 5px;
 }

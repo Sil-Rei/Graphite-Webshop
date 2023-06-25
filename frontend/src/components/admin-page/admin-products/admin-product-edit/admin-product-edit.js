@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./admin-product-edit.css";
 import { updateProduct } from "../../../../services/adminService";
+import AuthContext from "../../../../context/authContext";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AdminProductEdit({ product, closeEditCallback }) {
   const [name, setName] = useState(product?.name);
   const [price, setPrice] = useState(product?.price);
   const [stockQuantity, setStockQuantity] = useState(product?.stock_quantity);
 
+  const { user } = useContext(AuthContext);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (user.username === "demoadmin") {
+      toast.error("Sorry. The demo admin can't change products.");
+      return;
+    }
 
     const updatedProduct = {
       name: name,

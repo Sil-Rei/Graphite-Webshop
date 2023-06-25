@@ -4,6 +4,8 @@ import "./cart-item.css";
 import { XCircle } from "react-bootstrap-icons";
 import { removeFromCart } from "../../../services/productService";
 import AuthContext from "../../../context/authContext";
+import { updateCartQuantity } from "../../../services/userdataService";
+import CartContext from "../../../context/cartContext";
 
 function CartItem({
   name,
@@ -17,6 +19,8 @@ function CartItem({
 }) {
   const [buyAmount, setBuyAmount] = useState(amount);
   const { user } = useContext(AuthContext);
+  const { updateCartItemQuantity } = useContext(CartContext);
+  const [isInvalidAmount, setIsInvalidAmount] = useState(false);
 
   let imageURL = image;
 
@@ -25,7 +29,25 @@ function CartItem({
   }
 
   const handleChange = (event) => {
-    setBuyAmount(event.target.value);
+    let value = event.target.value;
+    if (value > stockQuantity || value <= 0) {
+      setIsInvalidAmount(true);
+    } else {
+      setIsInvalidAmount(false);
+      setBuyAmount(value);
+      updateQuantity(value);
+    }
+  };
+
+  const updateQuantity = async (newAmount) => {
+    updateCartItemQuantity(itemId, newAmount);
+    if (user) {
+      try {
+        await updateCartQuantity(itemId, newAmount);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const handleRemoveClick = async () => {
@@ -43,6 +65,10 @@ function CartItem({
     }
   };
 
+  let errorClass = isInvalidAmount
+    ? "card-item-amount card-item-error"
+    : "card-item-amount";
+
   return (
     <div className="card-item-container">
       <div className="image-cropper">
@@ -55,7 +81,7 @@ function CartItem({
         <div className="card-item-quantity-container">
           <input
             type="number"
-            className="card-item-amount"
+            className={errorClass}
             value={buyAmount}
             onChange={handleChange}
             min={1}

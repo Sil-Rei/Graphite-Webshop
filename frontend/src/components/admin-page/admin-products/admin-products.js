@@ -4,7 +4,7 @@ import AdminProduct from "./admin-product/admin-product";
 import { productsByCategory } from "../../../services/productService";
 import AdminAddProduct from "./admin-add-product/admin-add-product";
 
-function AdminProducts() {
+function AdminProducts({ user }) {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddProduct, setShowAddProduct] = useState(false);
@@ -66,7 +66,10 @@ function AdminProducts() {
         </button>
       </div>
       {showAddProduct && (
-        <AdminAddProduct showAddProductCallback={showAddProductCallback} />
+        <AdminAddProduct
+          user={user}
+          showAddProductCallback={showAddProductCallback}
+        />
       )}
       <ul className="admin-products-list">{mappedProducts}</ul>
     </div>

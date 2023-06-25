@@ -94,11 +94,34 @@
 
 .coupon-input {
   height: 30px;
-  width: 200px;
-  border-radius: 10px;
+  width: 180px;
+  border-radius: 10px 0 0 10px;
   border: #909090 2px solid;
   padding: 10px;
+  border-right: none;
+  text-align: center;
+}
+
+.coupon-form {
+  display: flex;
+  align-items: center;
   margin-top: 10px;
+}
+
+.coupon-submit-button {
+  height: 30px;
+  border-radius: 0 10px 10px 0;
+  width: 30px;
+  font-size: 1.5rem;
+  background-color: black;
+  color: white;
+  border: #909090 1px solid;
+  border-left: none;
+  cursor: pointer;
+}
+
+.coupon-submit-button:hover {
+  background-color: rgb(47, 47, 47);
 }
 
 .shopping-cart-empty {

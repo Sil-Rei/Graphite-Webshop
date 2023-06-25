@@ -36,7 +36,7 @@ function AdminUsers() {
 
   const mappedusers = filteredUsers.map((user, index) => (
     <li key={index}>
-      <AdminUser user={user} reloadCallback={reloadCallback} />
+      <AdminUser userProp={user} reloadCallback={reloadCallback} />
     </li>
   ));
   return (

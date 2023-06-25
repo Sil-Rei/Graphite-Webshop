@@ -77,3 +77,40 @@ export const syncCartContext = async (data) => {
     throw error;
   }
 };
+
+export const updateCartQuantity = async (id, newQuantity) => {
+  try {
+    const response = await axios.post("/api/cart/update-quantity/", {
+      id,
+      newQuantity,
+    });
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};
+
+export const subscribeNewsletter = async (email) => {
+  try {
+    const response = await axios.post("/api/newsletter/subscribe/", {
+      email,
+    });
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};
+
+export const validateCoupon = async (coupon) => {
+  try {
+    const response = await axios.post("/api/coupon/validate/", {
+      coupon,
+    });
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+};

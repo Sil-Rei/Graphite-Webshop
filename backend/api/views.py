@@ -2,10 +2,20 @@ from rest_framework.response import Response
 from django.db.models import Q, Count
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from base.models import Product, CartItem, Cart, UserReview, Purchase, PurchaseItem
+from base.models import (
+    Product,
+    CartItem,
+    Cart,
+    UserReview,
+    Purchase,
+    PurchaseItem,
+    Coupon,
+)
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.shortcuts import get_list_or_404
+from .emailutils import Emailutils
+from django.utils.crypto import get_random_string
 from rest_framework import status
 from .serializers import (
     ProductSerializer,
@@ -332,7 +342,7 @@ def sync_cart(request):
 
     for item in items:
         product_id = item.get("product").get("id")
-        quantity = item.get("quantity")
+        quantity = int(item.get("quantity"))
 
         product = Product.objects.get(id=product_id)
 
@@ -350,3 +360,56 @@ def sync_cart(request):
         product.save()
 
     return Response("Cart synchronized", status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def cart_update_quantity(request):
+    user = request.user
+    print(request.data)
+    cart_item_id = request.data["id"]
+    cart_item = CartItem.objects.get(id=cart_item_id)
+    new_quantity = int(request.data["newQuantity"])
+    if new_quantity > cart_item.product.stock_quantity or new_quantity <= 0:
+        return Response("Invalid quantity", status=status.HTTP_403_FORBIDDEN)
+    cart_item.quantity = new_quantity
+    cart_item.save()
+    return Response("Updated quantity", status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+def subscribe_to_newsletter(request):
+    print("received")
+    to = request.data["email"]
+    subject = "graphite - Welcome to our newsletter"
+
+    coupon_code = get_random_string(length=8)
+
+    # Create a new coupon
+    coupon = Coupon.objects.create(email=to, code=coupon_code, discount=10)
+
+    body = f"Hey mate,\n\nThank you for signing up for our graphite newsletter. Here is your 10% coupon code as small thank you: \n\n{coupon}\n\nBest regards,\nYour graphite Team"
+
+    # Send the email
+    print("trying send")
+    Emailutils.send_email(to=to, subject=subject, body=body)
+    print("send?")
+
+    return Response(
+        {"message": "Email sent and coupon generated successfully"}, status=200
+    )
+
+
+@api_view(["POST"])
+def validate_coupon(request):
+    coupon_code = request.data["coupon"]
+
+    try:
+        coupon = Coupon.objects.get(code=coupon_code, is_used=False)
+    except Coupon.DoesNotExist:
+        return Response({"message": "Invalid coupon"}, status=400)
+
+    coupon.is_used = True
+    coupon.save()
+
+    return Response({"message": "Coupon validated successfully"}, status=200)

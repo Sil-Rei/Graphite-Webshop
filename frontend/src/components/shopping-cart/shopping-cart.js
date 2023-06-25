@@ -5,11 +5,15 @@ import {
   getCartItems,
   makePurchase,
   syncCartContext,
+  validateCoupon,
 } from "../../services/userdataService";
 import CartContext from "../../context/cartContext";
-import { BagCheckFill, EmojiFrown } from "react-bootstrap-icons";
+import { BagCheckFill, Check, EmojiFrown } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authContext";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ShoppingCart() {
   const [cartItemsState, setCartItemsState] = useState([]);
@@ -17,6 +21,8 @@ function ShoppingCart() {
   const { user } = useContext(AuthContext);
   const [hasBought, setHasBought] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [coupon, setCoupon] = useState("");
+  const [couponDisabled, setCouponDisabled] = useState(false);
 
   const navigate = useNavigate();
 
@@ -91,8 +97,11 @@ function ShoppingCart() {
   cartItemsState.forEach((item) => {
     totalPrice += item.quantity * item.product.price;
   });
-  totalPrice = totalPrice.toFixed(2);
 
+  if (couponDisabled) {
+    totalPrice = totalPrice * 0.9;
+  }
+  totalPrice = totalPrice.toFixed(2);
   const handleCheckout = async () => {
     if (!user) {
       navigate("/login");
@@ -112,8 +121,26 @@ function ShoppingCart() {
     navigate("/");
   };
 
+  const handleChange = (event) => {
+    setCoupon(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await validateCoupon(coupon);
+      console.log(response);
+      toast.success("Coupon valid! Discount applied.");
+      setCouponDisabled(true);
+    } catch (error) {
+      console.log(error);
+      toast.error("Invalid coupon.");
+    }
+  };
+
   return (
     <div className="outer-wrapper">
+      <ToastContainer />
       {!hasBought ? (
         <div className="shopping-cart-container">
           <h1>shopping cart</h1>
@@ -142,11 +169,19 @@ function ShoppingCart() {
                 <button className="checkout-button" onClick={handleCheckout}>
                   checkout
                 </button>
-                <input
-                  type="text"
-                  placeholder="coupon?"
-                  className="coupon-input"
-                />
+                <form onSubmit={handleSubmit} className="coupon-form">
+                  <input
+                    type="text"
+                    placeholder="coupon?"
+                    className="coupon-input"
+                    value={coupon}
+                    onChange={handleChange}
+                    disabled={couponDisabled}
+                  />
+                  <button type="submit" className="coupon-submit-button">
+                    <Check />
+                  </button>
+                </form>
               </div>
             ) : (
               <div className="price-section" />
