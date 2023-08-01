@@ -129,6 +129,7 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 # postgres://huxbsxbqlpptew:792f117e5752fa19cb9dd4d1e34fae9c9f644cbd7eb43655ea8429e814700039@ec2-54-73-22-169.eu-west-1.compute.amazonaws.com:5432/dftrelj1a1os3s
+# postgres://pedukkkdcmthxc:42308b1c10e34ce3462210981f463383478ea20bc915870870f4211a893f32c2@ec2-99-80-246-170.eu-west-1.compute.amazonaws.com:5432/d3ik2ujme9uebb
 
 # DATABASES = {
 #     "default": {
@@ -140,11 +141,11 @@ WSGI_APPLICATION = "backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "dftrelj1a1os3s",
-        "HOST": "ec2-54-73-22-169.eu-west-1.compute.amazonaws.com",
+        "NAME": "d3ik2ujme9uebb",
+        "HOST": "ec2-99-80-246-170.eu-west-1.compute.amazonaws.com",
         "PORT": 5432,
-        "USER": "huxbsxbqlpptew",
-        "PASSWORD": "792f117e5752fa19cb9dd4d1e34fae9c9f644cbd7eb43655ea8429e814700039",
+        "USER": "pedukkkdcmthxc",
+        "PASSWORD": "42308b1c10e34ce3462210981f463383478ea20bc915870870f4211a893f32c2",
     }
 }
 
